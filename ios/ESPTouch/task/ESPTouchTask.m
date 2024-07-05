@@ -15,6 +15,7 @@
 #import "ESPUDPSocketServer.h"
 #import "ESP_NetUtil.h"
 #import "ESPTouchTaskParameter.h"
+#import "UIKit/UIKit.h"
 
 #define ONE_DATA_LEN    3
 
