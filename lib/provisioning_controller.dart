@@ -7,13 +7,14 @@ class ProvisioningController extends GetxController {
   var passwordController = TextEditingController(text: '12345687');
   var agreeToTerms = true.obs;
 
-  // 用于存储所有事件信息的列表
   var eventMessages = <String>[].obs;
 
   @override
   void onInit() {
     super.onInit();
+    print("OnInit");
     ESPTouch.setEventHandler((event, message) {
+      print('listening for: $event');
       String eventMessage = 'Event: $event\nMessage: ${message ?? 'No message'}';
       eventMessages.add(eventMessage);
     });
