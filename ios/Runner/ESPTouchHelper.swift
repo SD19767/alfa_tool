@@ -50,7 +50,7 @@ class ESPTouchHelper: NSObject, ESPProvisionerDelegate {
     }
 
     func onProvisoningScanResult(_ result: ESPProvisioningResult) {
-        sendEventToFlutter(event: "onProvisoningScanResult", message: result.description)
+        sendEventToFlutter(event: "onProvisoningScanResult", message: "address: \(result.address), bssid \(result.bssid)")
     }
 
     func onProvisioningError(_ exception: NSException) {
