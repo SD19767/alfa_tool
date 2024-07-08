@@ -28,6 +28,8 @@ class _ProvisioningPageState extends State<ProvisioningPage> {
 
   @override
   Widget build(BuildContext context) {
+    _ssidController.text = 'AlfaLoop';
+    _passwordController.text = '12345687';
     return CupertinoPageScaffold(
       child: Stack(
         children: [
@@ -97,7 +99,7 @@ class _ProvisioningPageState extends State<ProvisioningPage> {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                           child: Container(
-                            color: Color.fromARGB(255, 105, 20, 147).withOpacity(0.8),
+                            color: Color.fromARGB(255, 138, 73, 174).withOpacity(0.9),
                             child: CupertinoButton(
                               color: Colors.transparent,
                               onPressed: _agreeToTerms
