@@ -5,6 +5,7 @@ import 'esptouch.dart';
 class ProvisioningController extends GetxController {
   var ssidController = TextEditingController(text: 'AlfaLoop');
   var passwordController = TextEditingController(text: '12345687');
+  var mockBSSID = 'AA:BB:CC:DD:EE:FF';
   var agreeToTerms = true.obs;
 
   var eventMessages = <String>[].obs;
@@ -15,14 +16,15 @@ class ProvisioningController extends GetxController {
     print("OnInit");
     ESPTouch.setEventHandler((event, message) {
       print('listening for: $event');
-      String eventMessage = 'Event: $event\nMessage: ${message ?? 'No message'}';
+      String eventMessage =
+          'Event: $event\nMessage: ${message ?? 'No message'}';
       eventMessages.add(eventMessage);
     });
   }
 
   Future<void> startProvisioning() async {
     String ssid = ssidController.text;
-    String bssid = ""; // Fetch the BSSID if needed
+    String bssid = mockBSSID; // Fetch the BSSID if needed
     String password = passwordController.text;
     await ESPTouch.startProvisioning(ssid, bssid, password);
   }
