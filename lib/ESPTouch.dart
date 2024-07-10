@@ -3,13 +3,18 @@ import 'package:flutter/services.dart';
 class ESPTouch {
   static const platform = MethodChannel('com.example.esptouch');
 
-  static Future<void> startProvisioning(
-      String ssid, String bssid, String password) async {
-    await platform.invokeMethod('startProvisioning', {
+  static Future<void> startProvisioning(String ssid, String bssid,
+      String password, String reservedData, String aseKey) async {
+    // 創建一個包含必要參數的 Map
+    Map<String, String?> args = {
       'ssid': ssid,
-      'bssid': bssid,
       'password': password,
-    });
+      'bssid': bssid.isNotEmpty ? bssid : null,
+      'reservedData': reservedData.isNotEmpty ? reservedData : null,
+      'aseKey': aseKey.isNotEmpty ? aseKey : null
+    };
+
+    await platform.invokeMethod('startProvisioning', args);
   }
 
   static Future<void> startSync() async {

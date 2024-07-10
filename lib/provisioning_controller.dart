@@ -38,7 +38,10 @@ class ProvisioningController extends GetxController {
     String ssid = ssidController.text;
     String bssid = mockBSSID; // Fetch the BSSID if needed
     String password = passwordController.text;
-    await ESPTouch.startProvisioning(ssid, bssid, password);
+    String reservedData = customDataController.text;
+    String aseKey = aesKeyController.text;
+    await ESPTouch.startProvisioning(
+        ssid, bssid, password, reservedData, aseKey);
   }
 
   Future<void> startSync() async {

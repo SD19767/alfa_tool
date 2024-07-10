@@ -25,10 +25,10 @@ class BackgroundController extends GetxController
   void changeState(BackgroundState newState) {
     currentState.value = newState;
     if (newState == BackgroundState.galaxy) {
-      animationController.duration = Duration(seconds: 2);
+      animationController.duration = Duration(seconds: 4);
       animationController.repeat();
     } else {
-      animationController.duration = Duration(seconds: 5);
+      animationController.duration = Duration(seconds: 15);
       animationController.repeat();
     }
   }

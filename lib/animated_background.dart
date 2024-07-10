@@ -55,10 +55,10 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     return GetBuilder<BackgroundController>(
       builder: (controller) {
         return AnimatedBuilder(
-          animation: _controller,
+          animation: controller.animationController,
           builder: (context, child) {
             final BackgroundState currentState = controller.currentState.value;
-            final double colorProgress = (_controller.value *
+            final double colorProgress = (controller.animationController.value *
                     (animationDuration.inSeconds /
                         colorChangeDuration.inSeconds)) %
                 1.0;
@@ -100,7 +100,7 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
               ),
               child: CustomPaint(
                 painter: BackgroundPainter(
-                  progress: _controller.value,
+                  progress: controller.animationController.value,
                   waveHeight1: waveHeight1,
                   waveFrequency1: _getRandomFrequency(0.08, 0.08),
                   waveAmplitude1: waveAmplitude1,

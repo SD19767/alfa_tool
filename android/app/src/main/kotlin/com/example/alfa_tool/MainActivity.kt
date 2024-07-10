@@ -33,9 +33,11 @@ class MainActivity : FlutterActivity() {
                     val ssid = call.argument<String>("ssid")
                     val bssid = call.argument<String>("bssid")
                     val password = call.argument<String>("password")
+                    val reservedData = call.argument<String>("reservedData")
+                    val aseKey = call.argument<String>("aseKey")
                     if (ssid != null && bssid != null && password != null) {
                         Log.i(TAG, "Starting provisioning with SSID: $ssid, BSSID: $bssid")
-                        startProvisioning(ssid, bssid, password)
+                        startProvisioning(ssid, bssid, password, reservedData, aseKey)
                         result.success(null)
                     } else {
                         result.error("INVALID_ARGUMENT", "SSID, BSSID, or Password is null", null)
@@ -64,44 +66,54 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun startProvisioning(ssid: String, bssid: String, password: String) {
+    private fun startProvisioning(ssid: String, bssid: String, password: String, reservedData: String?, aseKey: String?) {
         val parsedBSSID = verifyAndParseBSSID(bssid)
         if (parsedBSSID == null) {
             Log.e(TAG, "Invalid BSSID: $bssid")
             sendEventToFlutter(EventType.PROVISIONING_ERROR, "Invalid BSSID: $bssid")
             return
         }
+
         sendEventToFlutter(EventType.PROVISIONING_START, "BSSID verify pass")
-        val request = EspProvisioningRequest.Builder(this)
-                .setSSID(ssid.toByteArray(Charsets.UTF_8))
-                .setBSSID(parsedBSSID)
-                .setPassword(password.toByteArray(Charsets.UTF_8))
-                .build()
 
-        provisioner.startProvisioning(request, object : EspProvisioningListener {
-            override fun onStart() {
-                Log.i(TAG, "onProvisioningStart")
-                sendEventToFlutter(EventType.PROVISIONING_START, "Provisioning started")
-            }
+        try {
+            val request = EspProvisioningRequest.Builder(this)
+                    .setSSID(ssid.toByteArray(Charsets.UTF_8))
+                    .setBSSID(parsedBSSID)
+                    .setPassword(password.toByteArray(Charsets.UTF_8))
+                    .setReservedData(reservedData?.toByteArray(Charsets.UTF_8))
+                    .setAESKey(aseKey?.toByteArray(Charsets.UTF_8))
+                    .build()
 
-            override fun onResponse(result: EspProvisioningResult) {
-                Log.i(TAG, "onProvisoningScanResult")
-                val address = result.address.hostAddress
-                val bssid = result.bssid
-                sendEventToFlutter(EventType.PROVISIONING_SCAN_RESULT, "address: $address, bssid: $bssid")
-            }
+            provisioner.startProvisioning(request, object : EspProvisioningListener {
+                override fun onStart() {
+                    Log.i(TAG, "onProvisioningStart")
+                    sendEventToFlutter(EventType.PROVISIONING_START, "Provisioning started")
+                }
 
-            override fun onStop() {
-                Log.i(TAG, "Provisioning stopped")
-                sendEventToFlutter(EventType.PROVISIONING_STOP, "Provisioning stopped")
-            }
+                override fun onResponse(result: EspProvisioningResult) {
+                    Log.i(TAG, "onProvisoningScanResult")
+                    val address = result.address.hostAddress
+                    val bssid = result.bssid
+                    sendEventToFlutter(EventType.PROVISIONING_SCAN_RESULT, "address: $address, bssid: $bssid")
+                }
 
-            override fun onError(exception: Exception) {
-                Log.e(TAG, "Provisioning error: ${exception.message}", exception)
-                sendEventToFlutter(EventType.PROVISIONING_ERROR, exception.message)
-            }
-        })
+                override fun onStop() {
+                    Log.i(TAG, "Provisioning stopped")
+                    sendEventToFlutter(EventType.PROVISIONING_STOP, "Provisioning stopped")
+                }
+
+                override fun onError(exception: Exception) {
+                    Log.e(TAG, "Provisioning error: ${exception.message}", exception)
+                    sendEventToFlutter(EventType.PROVISIONING_ERROR, exception.message)
+                }
+            })
+        } catch (e: Exception) {
+            Log.e(TAG, "Error creating provisioning request: ${e.message}", e)
+            sendEventToFlutter(EventType.PROVISIONING_ERROR, "Error creating provisioning request: ${e.message}")
+        }
     }
+
 
     private fun verifyAndParseBSSID(bssid: String): ByteArray? {
         val parts = bssid.split(":")
