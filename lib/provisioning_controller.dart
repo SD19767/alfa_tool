@@ -29,6 +29,8 @@ class ProvisioningController extends GetxController {
         provisioningState.value = ProvisioningState.provisioning;
       } else if (event == EventType.onProvisioningScanResult.methodName) {
         provisioningState.value = ProvisioningState.complete;
+      } else if (event == EventType.onProvisioningError) {
+        provisioningState.value = ProvisioningState.idle;
       }
     });
   }
