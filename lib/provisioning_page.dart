@@ -20,30 +20,18 @@ class ProvisioningPage extends GetView<ProvisioningController> {
         MediaQuery.of(context).platformBrightness == Brightness.dark;
 
     return Obx(() {
-      BackgroundState backgroundState;
-      switch (controller.provisioningState.value) {
-        case ProvisioningState.provisioning:
-          backgroundState = BackgroundState.galaxy;
-          break;
-        case ProvisioningState.complete:
-          backgroundState = BackgroundState.green;
-          break;
-        case ProvisioningState.idle:
-        default:
-          backgroundState = BackgroundState.purple;
-          break;
-      }
-
-      backgroundController.changeState(backgroundState);
+      backgroundController.changeState(controller.backgroundState.value);
 
       final bool isProvisioning =
-          controller.provisioningState.value == ProvisioningState.provisioning;
+          controller.provisioningState.value != ProvisioningState.idle;
 
       return CupertinoPageScaffold(
         child: Stack(
           children: [
             Positioned.fill(child: AnimatedBackground()),
-            SafeArea(child: _buildProvisioningStatusList(context, isDarkMode)),
+            if (isProvisioning)
+              SafeArea(
+                  child: _buildProvisioningStatusList(context, isDarkMode)),
             SafeArea(
               child: GestureDetector(
                 onPanStart: (details) {
@@ -199,6 +187,11 @@ class ProvisioningPage extends GetView<ProvisioningController> {
     return ProvisioningStatusList(
       isDarkMode: isDarkMode,
       eventMessages: controller.eventMessages,
+      onComplete: () {
+        controller.reset();
+        controller.provisioningState.value = ProvisioningState.idle;
+      },
+      provisioningState: controller.provisioningState.value,
     );
   }
 
@@ -212,7 +205,7 @@ class ProvisioningPage extends GetView<ProvisioningController> {
             height: 300,
             child: Obx(() => CupertinoScrollbar(
                   child: ListView.builder(
-                    itemCount: controller.eventMessages.length,
+                    itemCount: controller.logs.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -223,7 +216,7 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.all(12.0),
                             child: Text(
-                              controller.eventMessages[index].eventMessage,
+                              controller.logs[index].eventMessage,
                               style: TextStyle(
                                   color: isDarkMode
                                       ? CupertinoColors.white

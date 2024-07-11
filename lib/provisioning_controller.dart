@@ -1,4 +1,5 @@
 import 'package:alfa_tool/ESPTouch.dart';
+import 'package:alfa_tool/Animated_background_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,9 @@ class ProvisioningController extends GetxController {
   var showCustomFields = false.obs;
 
   var eventMessages = <EventLog>[].obs;
+  var logs = <EventLog>[].obs;
   var provisioningState = ProvisioningState.idle.obs;
+  var backgroundState = BackgroundState.purple.obs;
 
   @override
   void onInit() {
@@ -28,25 +31,32 @@ class ProvisioningController extends GetxController {
         case EventType.onProvisioningStart:
           eventMessages
               .add(EventLog(eventMessage, message ?? "", EventLogType.success));
-          provisioningState.value = ProvisioningState.provisioning;
+          logs.add(EventLog(eventMessage, message ?? "", EventLogType.success));
+          backgroundState.value = BackgroundState.galaxy;
           break;
         case EventType.onProvisioningScanResult:
           eventMessages
               .add(EventLog(eventMessage, message ?? "", EventLogType.info));
-          provisioningState.value = ProvisioningState.complete;
+          logs.add(EventLog(eventMessage, message ?? "", EventLogType.info));
+          backgroundState.value = BackgroundState.green;
           break;
         case EventType.onProvisioningError:
           eventMessages
               .add(EventLog(eventMessage, message ?? "", EventLogType.failure));
-          provisioningState.value = ProvisioningState.idle;
+          logs.add(EventLog(eventMessage, message ?? "", EventLogType.failure));
+          backgroundState.value = BackgroundState.purple;
+          provisioningState.value = ProvisioningState.complete;
           break;
         case EventType.onProvisioningStop:
           eventMessages
               .add(EventLog(eventMessage, message ?? "", EventLogType.stop));
-          provisioningState.value = ProvisioningState.idle;
+          logs.add(EventLog(eventMessage, message ?? "", EventLogType.stop));
+          backgroundState.value = BackgroundState.purple;
+          provisioningState.value = ProvisioningState.complete;
         default:
           eventMessages
               .add(EventLog(eventMessage, message ?? "", EventLogType.info));
+          logs.add(EventLog(eventMessage, message ?? "", EventLogType.info));
           break;
       }
     });
