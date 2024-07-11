@@ -47,4 +47,7 @@ enum EventType {
 
   final String methodName;
   const EventType(this.methodName);
+  static EventType fromMethodName(String methodName) {
+    return EventType.values.firstWhere((e) => e.methodName == methodName);
+  }
 }

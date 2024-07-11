@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:alfa_tool/Animated_background_colors.dart';
+import 'package:alfa_tool/provisioning_status_list.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'animated_background.dart';
 import 'provisioning_controller.dart';
@@ -41,6 +43,7 @@ class ProvisioningPage extends GetView<ProvisioningController> {
         child: Stack(
           children: [
             Positioned.fill(child: AnimatedBackground()),
+            SafeArea(child: _buildProvisioningStatusList(context, isDarkMode)),
             SafeArea(
               child: GestureDetector(
                 onPanStart: (details) {
@@ -156,7 +159,7 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                 if (!isProvisioning)
                   CupertinoButton(
                     child: Text('View Events'),
-                    onPressed: () => _showEventLog(context),
+                    onPressed: () => _showEventLog(context, isDarkMode),
                   ),
                 SizedBox(height: 24),
               ],
@@ -192,7 +195,14 @@ class ProvisioningPage extends GetView<ProvisioningController> {
     );
   }
 
-  void _showEventLog(BuildContext context) {
+  Widget _buildProvisioningStatusList(BuildContext context, bool isDarkMode) {
+    return ProvisioningStatusList(
+      isDarkMode: isDarkMode,
+      eventMessages: controller.eventMessages,
+    );
+  }
+
+  void _showEventLog(BuildContext context, bool isDarkMode) {
     showCupertinoModalPopup(
       context: context,
       builder: (context) {
@@ -212,10 +222,12 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.all(12.0),
-                            color: CupertinoColors.systemGrey5,
                             child: Text(
-                              controller.eventMessages[index],
-                              style: TextStyle(color: CupertinoColors.black),
+                              controller.eventMessages[index].eventMessage,
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? CupertinoColors.white
+                                      : CupertinoColors.black),
                             ),
                           ),
                         ),

@@ -13,7 +13,7 @@ class ProvisioningController extends GetxController {
   var agreeToTerms = true.obs;
   var showCustomFields = false.obs;
 
-  var eventMessages = <String>[].obs;
+  var eventMessages = <EventLog>[].obs;
   var provisioningState = ProvisioningState.idle.obs;
 
   @override
@@ -24,13 +24,30 @@ class ProvisioningController extends GetxController {
       print('listening for: $event');
       String eventMessage =
           'Event: $event\nMessage: ${message ?? 'No message'}';
-      eventMessages.add(eventMessage);
-      if (event == EventType.onProvisioningStart) {
-        provisioningState.value = ProvisioningState.provisioning;
-      } else if (event == EventType.onProvisioningScanResult.methodName) {
-        provisioningState.value = ProvisioningState.complete;
-      } else if (event == EventType.onProvisioningError) {
-        provisioningState.value = ProvisioningState.idle;
+      switch (EventType.fromMethodName(event)) {
+        case EventType.onProvisioningStart:
+          eventMessages
+              .add(EventLog(eventMessage, message ?? "", EventLogType.success));
+          provisioningState.value = ProvisioningState.provisioning;
+          break;
+        case EventType.onProvisioningScanResult:
+          eventMessages
+              .add(EventLog(eventMessage, message ?? "", EventLogType.info));
+          provisioningState.value = ProvisioningState.complete;
+          break;
+        case EventType.onProvisioningError:
+          eventMessages
+              .add(EventLog(eventMessage, message ?? "", EventLogType.failure));
+          provisioningState.value = ProvisioningState.idle;
+          break;
+        case EventType.onProvisioningStop:
+          eventMessages
+              .add(EventLog(eventMessage, message ?? "", EventLogType.stop));
+          provisioningState.value = ProvisioningState.idle;
+        default:
+          eventMessages
+              .add(EventLog(eventMessage, message ?? "", EventLogType.info));
+          break;
       }
     });
   }
@@ -55,3 +72,12 @@ class ProvisioningController extends GetxController {
     eventMessages.clear();
   }
 }
+
+class EventLog {
+  String eventMessage;
+  String message;
+  EventLogType type;
+  EventLog(this.eventMessage, this.message, this.type);
+}
+
+enum EventLogType { success, failure, info, stop }
