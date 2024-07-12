@@ -57,6 +57,11 @@ class ProvisioningController extends GetxController {
   }
 
   Future<void> startProvisioningButtonTap() async {
-    _startProvisioning();
+    shouldStartProvisioning() ? _startProvisioning() : null;
   }
+
+  bool shouldShowEventLog() =>
+      provisioningState.value == ProvisioningState.idle;
+  bool shouldStartProvisioning() =>
+      provisioningState.value == ProvisioningState.idle;
 }

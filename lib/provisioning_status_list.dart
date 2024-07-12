@@ -32,41 +32,42 @@ class ProvisioningStatusList extends GetView<ProvisioningStatusListController> {
                 itemCount: controller.eventLogs.length,
                 itemBuilder: (context, index) {
                   return _buildItem(
-                    context,
-                    controller.eventLogs[index],
-                    isDarkMode,
-                    index,
-                  );
+                      context, controller.eventLogs[index], isDarkMode, index);
                 },
               );
             }),
           ),
           SizedBox(height: 24),
           Obx(() {
-            return AnimatedOpacity(
-              opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
-              duration: Duration(milliseconds: 300),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.systemIndigo.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: CupertinoButton(
-                      onPressed: controller.onComplete,
-                      child: Text(
-                        controller.getButtonTitle(),
-                        style: TextStyle(
-                          color: isDarkMode
-                              ? CupertinoColors.white
-                              : CupertinoColors.black,
-                        ),
+            return IgnorePointer(
+              ignoring: controller.getButtonShouldShow() ? false : true,
+              child: AnimatedOpacity(
+                opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
+                duration: Duration(milliseconds: 300),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.systemIndigo.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      child: CupertinoButton(
+                        onPressed: controller.getButtonShouldShow()
+                            ? controller.onComplete
+                            : null,
+                        child: Text(
+                          controller.getButtonTitle(),
+                          style: TextStyle(
+                            color: isDarkMode
+                                ? CupertinoColors.white
+                                : CupertinoColors.black,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                      ),
                     ),
                   ),
                 ),
@@ -80,11 +81,7 @@ class ProvisioningStatusList extends GetView<ProvisioningStatusListController> {
   }
 
   Widget _buildItem(
-    BuildContext context,
-    EventLog event,
-    bool isDarkMode,
-    int index,
-  ) {
+      BuildContext context, EventLog event, bool isDarkMode, int index) {
     IconData icon;
     Color color;
 
@@ -123,9 +120,9 @@ class ProvisioningStatusList extends GetView<ProvisioningStatusListController> {
             child: Text(
               event.message,
               style: TextStyle(
-                color:
-                    isDarkMode ? CupertinoColors.white : CupertinoColors.black,
-              ),
+                  color: isDarkMode
+                      ? CupertinoColors.white
+                      : CupertinoColors.black),
             ),
           ),
         ],

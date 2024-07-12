@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:alfa_tool/Animated_background_colors.dart';
+import 'package:alfa_tool/event_log.dart';
 import 'package:alfa_tool/provisioning_state_manager.dart';
 import 'package:alfa_tool/provisioning_status_list.dart';
 import 'package:alfa_tool/provisioning_status_list_controller.dart';
@@ -101,21 +102,19 @@ class ProvisioningPage extends GetView<ProvisioningController> {
             curve: Curves.easeInOut,
             child: Column(
               children: [
-                ...[
-                  _buildTextField(controller.ssidController, 'Enter SSID',
+                _buildTextField(
+                    controller.ssidController, 'Enter SSID', isDarkMode, false),
+                SizedBox(height: 16),
+                _buildTextField(controller.passwordController, 'Enter Password',
+                    isDarkMode, true),
+                SizedBox(height: 16),
+                if (controller.showCustomFields.value) ...[
+                  _buildTextField(controller.customDataController,
+                      'Enter Custom Data', isDarkMode, false),
+                  SizedBox(height: 16),
+                  _buildTextField(controller.aesKeyController, 'Enter AES Key',
                       isDarkMode, false),
                   SizedBox(height: 16),
-                  _buildTextField(controller.passwordController,
-                      'Enter Password', isDarkMode, true),
-                  SizedBox(height: 16),
-                  if (controller.showCustomFields.value) ...[
-                    _buildTextField(controller.customDataController,
-                        'Enter Custom Data', isDarkMode, false),
-                    SizedBox(height: 16),
-                    _buildTextField(controller.aesKeyController,
-                        'Enter AES Key', isDarkMode, false),
-                    SizedBox(height: 16),
-                  ],
                 ],
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
@@ -147,9 +146,14 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                   ),
                 ),
                 SizedBox(height: 24),
-                CupertinoButton(
-                  child: Text('View Events'),
-                  onPressed: () => _showEventLog(context, isDarkMode),
+                IgnorePointer(
+                  ignoring: controller.shouldShowEventLog() ? false : true,
+                  child: CupertinoButton(
+                    child: Text('View Events'),
+                    onPressed: controller.shouldShowEventLog()
+                        ? () => _showEventLog(context, isDarkMode)
+                        : null,
+                  ),
                 ),
                 SizedBox(height: 24),
               ],
