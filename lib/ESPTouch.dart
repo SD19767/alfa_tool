@@ -21,33 +21,19 @@ class ESPTouch {
     await platform.invokeMethod('startSync');
   }
 
+  static Future<void> stopProvisioning() async {
+    await platform.invokeMethod('stopProvisioning');
+  }
+
   static void setEventHandler(Function(String event, String? message) handler) {
     platform.setMethodCallHandler((MethodCall methodCall) async {
       switch (methodCall.method) {
         default:
           final String event = methodCall.method;
           final String? message = methodCall.arguments;
-          print('Event received: $event, message: $message'); // Dart 端日志输出
           handler(event, message);
           break;
       }
     });
-  }
-}
-
-enum EventType {
-  channelCreate("channelCreate"),
-  onProvisioningStart("onProvisioningStart"),
-  onProvisioningScanResult("onProvisioningScanResult"),
-  onProvisioningStop("onProvisioningStop"),
-  onProvisioningError("onProvisioningError"),
-  onSyncStart("onSyncStart"),
-  onSyncStop("onSyncStop"),
-  onSyncError("onSyncError");
-
-  final String methodName;
-  const EventType(this.methodName);
-  static EventType fromMethodName(String methodName) {
-    return EventType.values.firstWhere((e) => e.methodName == methodName);
   }
 }

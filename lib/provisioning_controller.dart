@@ -1,9 +1,11 @@
-import 'package:alfa_tool/ESPTouch.dart';
-import 'package:alfa_tool/Animated_background_colors.dart';
+import 'package:alfa_tool/ESPTouch_Service.dart';
+import 'package:alfa_tool/animated_background_colors.dart';
+import 'package:alfa_tool/event_log.dart';
+import 'package:alfa_tool/event_log_manager.dart';
+import 'package:alfa_tool/event_type.dart';
+import 'package:alfa_tool/provisioning_state_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
-enum ProvisioningState { idle, provisioning, complete }
 
 class ProvisioningController extends GetxController {
   var ssidController = TextEditingController(text: 'AlfaLoop');
@@ -11,83 +13,50 @@ class ProvisioningController extends GetxController {
   var customDataController = TextEditingController();
   var aesKeyController = TextEditingController();
   var mockBSSID = 'AA:BB:CC:DD:EE:FF';
-  var agreeToTerms = true.obs;
   var showCustomFields = false.obs;
+  RxList<EventLog> logs = <EventLog>[].obs;
+  Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
+  Rx<BackgroundState> backgroundState = BackgroundState.purple.obs;
 
-  var eventMessages = <EventLog>[].obs;
-  var logs = <EventLog>[].obs;
-  var provisioningState = ProvisioningState.idle.obs;
-  var backgroundState = BackgroundState.purple.obs;
-
+  final ProvisioningStateManager _stateManager =
+      Get.find<ProvisioningStateManager>();
+  final EventLogManager _logManager = Get.find<EventLogManager>();
+  final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
   @override
   void onInit() {
     super.onInit();
-    print("OnInit");
-    ESPTouch.setEventHandler((event, message) {
-      print('listening for: $event');
-      String eventMessage =
-          'Event: $event\nMessage: ${message ?? 'No message'}';
-      switch (EventType.fromMethodName(event)) {
+    logs.bindStream(_logManager.eventMessages.stream);
+    provisioningState.bindStream(_stateManager.provisioningState.stream);
+    backgroundState.bindStream(_stateManager.backgroundState.stream);
+    _espTouchService.setEventHandler((event, message) {
+      switch (event) {
         case EventType.onProvisioningStart:
-          eventMessages
-              .add(EventLog(eventMessage, message ?? "", EventLogType.success));
-          logs.add(EventLog(eventMessage, message ?? "", EventLogType.success));
-          backgroundState.value = BackgroundState.galaxy;
+          _stateManager.updateBackgroundState(BackgroundState.galaxy);
           break;
         case EventType.onProvisioningScanResult:
-          eventMessages
-              .add(EventLog(eventMessage, message ?? "", EventLogType.info));
-          logs.add(EventLog(eventMessage, message ?? "", EventLogType.info));
-          backgroundState.value = BackgroundState.green;
+          _stateManager.updateBackgroundState(BackgroundState.green);
           break;
         case EventType.onProvisioningError:
-          eventMessages
-              .add(EventLog(eventMessage, message ?? "", EventLogType.failure));
-          logs.add(EventLog(eventMessage, message ?? "", EventLogType.failure));
-          backgroundState.value = BackgroundState.purple;
-          provisioningState.value = ProvisioningState.complete;
-          break;
+          _stateManager.updateBackgroundState(BackgroundState.purple);
         case EventType.onProvisioningStop:
-          eventMessages
-              .add(EventLog(eventMessage, message ?? "", EventLogType.stop));
-          logs.add(EventLog(eventMessage, message ?? "", EventLogType.stop));
-          backgroundState.value = BackgroundState.purple;
-          provisioningState.value = ProvisioningState.complete;
+          _stateManager.updateBackgroundState(BackgroundState.purple);
         default:
-          eventMessages
-              .add(EventLog(eventMessage, message ?? "", EventLogType.info));
-          logs.add(EventLog(eventMessage, message ?? "", EventLogType.info));
           break;
       }
     });
   }
 
-  Future<void> startProvisioning() async {
-    provisioningState.value = ProvisioningState.provisioning;
+  Future<void> _startProvisioning() async {
     String ssid = ssidController.text;
     String bssid = mockBSSID; // Fetch the BSSID if needed
     String password = passwordController.text;
     String reservedData = customDataController.text;
     String aseKey = aesKeyController.text;
-    await ESPTouch.startProvisioning(
+    await _espTouchService.startProvisioning(
         ssid, bssid, password, reservedData, aseKey);
   }
 
-  Future<void> startSync() async {
-    await ESPTouch.startSync();
-  }
-
-  void reset() {
-    provisioningState.value = ProvisioningState.idle;
-    eventMessages.clear();
+  Future<void> startProvisioningButtonTap() async {
+    _startProvisioning();
   }
 }
-
-class EventLog {
-  String eventMessage;
-  String message;
-  EventLogType type;
-  EventLog(this.eventMessage, this.message, this.type);
-}
-
-enum EventLogType { success, failure, info, stop }

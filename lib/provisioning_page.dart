@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:alfa_tool/Animated_background_colors.dart';
+import 'package:alfa_tool/provisioning_state_manager.dart';
 import 'package:alfa_tool/provisioning_status_list.dart';
+import 'package:alfa_tool/provisioning_status_list_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +15,8 @@ class ProvisioningPage extends GetView<ProvisioningController> {
       Get.put(BackgroundController());
   late double _panStartPositionY;
   late double _panEndPositionY;
+
+  ProvisioningPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +34,7 @@ class ProvisioningPage extends GetView<ProvisioningController> {
           children: [
             Positioned.fill(child: AnimatedBackground()),
             if (isProvisioning)
-              SafeArea(
-                  child: _buildProvisioningStatusList(context, isDarkMode)),
+              SafeArea(child: ProvisioningStatusList(key: key)),
             SafeArea(
               child: GestureDetector(
                 onPanStart: (details) {
@@ -71,8 +74,8 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                     Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildInputFields(
-                          context, isDarkMode, isProvisioning),
+                      child: _buildInputFields(context, isDarkMode,
+                          controller.provisioningState.value),
                     ),
                   ],
                 ),
@@ -84,21 +87,21 @@ class ProvisioningPage extends GetView<ProvisioningController> {
     });
   }
 
-  Widget _buildInputFields(
-      BuildContext context, bool isDarkMode, bool isProvisioning) {
+  Widget _buildInputFields(BuildContext context, bool isDarkMode,
+      ProvisioningState provisioningState) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AnimatedOpacity(
-          opacity: isProvisioning ? 0.0 : 1.0,
+          opacity: provisioningState == ProvisioningState.idle ? 1.0 : 0.0,
           duration: Duration(milliseconds: 300),
           child: AnimatedSize(
             duration: Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             child: Column(
               children: [
-                if (!isProvisioning) ...[
+                ...[
                   _buildTextField(controller.ssidController, 'Enter SSID',
                       isDarkMode, false),
                   SizedBox(height: 16),
@@ -127,9 +130,9 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: CupertinoButton(
-                        onPressed: controller.agreeToTerms.value
-                            ? controller.startProvisioning
-                            : null,
+                        onPressed: () {
+                          controller.startProvisioningButtonTap();
+                        },
                         child: Text(
                           'Start Provisioning',
                           style: TextStyle(
@@ -144,11 +147,10 @@ class ProvisioningPage extends GetView<ProvisioningController> {
                   ),
                 ),
                 SizedBox(height: 24),
-                if (!isProvisioning)
-                  CupertinoButton(
-                    child: Text('View Events'),
-                    onPressed: () => _showEventLog(context, isDarkMode),
-                  ),
+                CupertinoButton(
+                  child: Text('View Events'),
+                  onPressed: () => _showEventLog(context, isDarkMode),
+                ),
                 SizedBox(height: 24),
               ],
             ),
@@ -180,18 +182,6 @@ class ProvisioningPage extends GetView<ProvisioningController> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildProvisioningStatusList(BuildContext context, bool isDarkMode) {
-    return ProvisioningStatusList(
-      isDarkMode: isDarkMode,
-      eventMessages: controller.eventMessages,
-      onComplete: () {
-        controller.reset();
-        controller.provisioningState.value = ProvisioningState.idle;
-      },
-      provisioningState: controller.provisioningState.value,
     );
   }
 

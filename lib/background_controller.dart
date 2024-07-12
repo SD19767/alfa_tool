@@ -1,18 +1,21 @@
+import 'package:alfa_tool/provisioning_state_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'Animated_background_colors.dart';
+import 'package:alfa_tool/animated_background_colors.dart';
 
 class BackgroundController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  var currentState = BackgroundState.green.obs;
+  final currentState = BackgroundState.green.obs;
   late AnimationController animationController;
-
+  final ProvisioningStateManager _stateManager =
+      Get.find<ProvisioningStateManager>();
   @override
   void onInit() {
     super.onInit();
+    currentState.bindStream(_stateManager.backgroundState.stream);
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5),
+      duration: const Duration(seconds: 5),
     )..repeat();
   }
 
@@ -25,10 +28,10 @@ class BackgroundController extends GetxController
   void changeState(BackgroundState newState) {
     currentState.value = newState;
     if (newState == BackgroundState.galaxy) {
-      animationController.duration = Duration(seconds: 4);
+      animationController.duration = const Duration(seconds: 4);
       animationController.repeat();
     } else {
-      animationController.duration = Duration(seconds: 15);
+      animationController.duration = const Duration(seconds: 15);
       animationController.repeat();
     }
   }

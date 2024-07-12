@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'dart:math';
-import 'Animated_background_colors.dart';
+import 'package:alfa_tool/animated_background_colors.dart';
 import 'package:get/get.dart';
 import 'background_controller.dart';
 
