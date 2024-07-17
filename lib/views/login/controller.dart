@@ -7,7 +7,7 @@ import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class ProvisioningController extends GetxController {
+class LoginController extends GetxController {
   var ssidController = TextEditingController(text: 'AlfaLoop');
   var passwordController = TextEditingController(text: '12345687');
   var customDataController = TextEditingController();

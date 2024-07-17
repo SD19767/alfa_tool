@@ -2,22 +2,22 @@ import 'dart:ui';
 
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
-import 'package:alfa_tool/views/provisioning/provisioning_status_list.dart';
-import 'package:alfa_tool/views/provisioning/provisioning_status_list_controller.dart';
+import 'package:alfa_tool/views/provisioning/index.dart';
+import 'package:alfa_tool/views/provisioning/controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../animated_background/index.dart';
-import 'provisioning_controller.dart';
+import 'controller.dart';
 import '../animated_background/controller.dart';
 
-class ProvisioningPage extends GetView<ProvisioningController> {
+class LoginView extends GetView<LoginController> {
   final BackgroundController backgroundController =
       Get.put(BackgroundController());
   late double _panStartPositionY;
   late double _panEndPositionY;
 
-  ProvisioningPage({super.key});
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,7 @@ class ProvisioningPage extends GetView<ProvisioningController> {
         child: Stack(
           children: [
             Positioned.fill(child: animatedBackground),
-            if (isProvisioning)
-              SafeArea(child: ProvisioningStatusList(key: key)),
+            if (isProvisioning) SafeArea(child: ProvisioningView(key: key)),
             SafeArea(
               child: GestureDetector(
                 onPanStart: (details) {

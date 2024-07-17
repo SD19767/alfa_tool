@@ -5,7 +5,7 @@ import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:get/get_rx/get_rx.dart';
 
-class ProvisioningStatusListController extends GetxController {
+class ProvisioningController extends GetxController {
   RxList<EventLog> eventLogs = <EventLog>[].obs;
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
   final ProvisioningStateManager _stateManager =

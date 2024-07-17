@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:alfa_tool/models/event_log.dart';
-import 'package:alfa_tool/views/provisioning/provisioning_status_list_controller.dart';
+import 'package:alfa_tool/views/provisioning/controller.dart';
 
-class ProvisioningStatusList extends GetView<ProvisioningStatusListController> {
-  const ProvisioningStatusList({super.key});
+class ProvisioningView extends GetView<ProvisioningController> {
+  const ProvisioningView({super.key});
 
   @override
   Widget build(BuildContext context) {
