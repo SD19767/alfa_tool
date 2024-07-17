@@ -1,8 +1,8 @@
-import 'package:alfa_tool/ESPTouch.dart';
-import 'package:alfa_tool/event_log.dart';
-import 'package:alfa_tool/event_log_manager.dart';
-import 'package:alfa_tool/event_type.dart';
-import 'package:alfa_tool/provisioning_state_manager.dart';
+import 'package:alfa_tool/services/ESPTouch.dart';
+import 'package:alfa_tool/models/event_log.dart';
+import 'package:alfa_tool/services/event_log_manager.dart';
+import 'package:alfa_tool/constants/event_type.dart';
+import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:get/get.dart';
 
 class ESPTouchService extends GetxController {

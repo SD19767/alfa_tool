@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:alfa_tool/event_log.dart';
-import 'package:alfa_tool/provisioning_state_manager.dart';
-import 'package:alfa_tool/event_log_manager.dart';
+import 'package:alfa_tool/models/event_log.dart';
+import 'package:alfa_tool/services/provisioning_state_manager.dart';
+import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:get/get_rx/get_rx.dart';
 
 class ProvisioningStatusListController extends GetxController {

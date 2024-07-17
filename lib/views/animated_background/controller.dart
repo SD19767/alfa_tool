@@ -1,5 +1,5 @@
 import 'package:alfa_tool/constants/animated_background_state.dart';
-import 'package:alfa_tool/provisioning_state_manager.dart';
+import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-import 'package:alfa_tool/event_log.dart';
-import 'package:alfa_tool/provisioning_state_manager.dart';
-import 'package:alfa_tool/provisioning_status_list.dart';
-import 'package:alfa_tool/provisioning_status_list_controller.dart';
+import 'package:alfa_tool/models/event_log.dart';
+import 'package:alfa_tool/services/provisioning_state_manager.dart';
+import 'package:alfa_tool/views/provisioning/provisioning_status_list.dart';
+import 'package:alfa_tool/views/provisioning/provisioning_status_list_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'views/animated_background/index.dart';
+import '../animated_background/index.dart';
 import 'provisioning_controller.dart';
-import 'views/animated_background/controller.dart';
+import '../animated_background/controller.dart';
 
 class ProvisioningPage extends GetView<ProvisioningController> {
   final BackgroundController backgroundController =
@@ -30,10 +30,13 @@ class ProvisioningPage extends GetView<ProvisioningController> {
       final bool isProvisioning =
           controller.provisioningState.value != ProvisioningState.idle;
 
+      final AnimatedBackground animatedBackground =
+          Get.find<AnimatedBackground>();
+
       return CupertinoPageScaffold(
         child: Stack(
           children: [
-            Positioned.fill(child: AnimatedBackground()),
+            Positioned.fill(child: animatedBackground),
             if (isProvisioning)
               SafeArea(child: ProvisioningStatusList(key: key)),
             SafeArea(
