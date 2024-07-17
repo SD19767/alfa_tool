@@ -1,8 +1,9 @@
+import 'package:alfa_tool/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:math';
-import 'package:alfa_tool/animated_background_colors.dart';
+import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:get/get.dart';
-import 'background_controller.dart';
+import 'controller.dart';
 
 class AnimatedBackground extends StatefulWidget {
   @override
@@ -71,11 +72,11 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
             final double waveAmplitude2 = screenHeight * 0.1;
 
             final Color waveColor1 = currentState == BackgroundState.galaxy
-                ? _lerpColor(waveColors1[currentState]!, colorProgress)
-                : waveColors1[currentState]![0];
+                ? _lerpColor(AppColor.waveColors1[currentState]!, colorProgress)
+                : AppColor.waveColors1[currentState]![0];
             final Color waveColor2 = currentState == BackgroundState.galaxy
-                ? _lerpColor(waveColors2[currentState]!, colorProgress)
-                : waveColors2[currentState]![0];
+                ? _lerpColor(AppColor.waveColors2[currentState]!, colorProgress)
+                : AppColor.waveColors2[currentState]![0];
 
             final Color baseColor =
                 isDarkMode ? CupertinoColors.black : CupertinoColors.white;

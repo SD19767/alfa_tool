@@ -1,5 +1,5 @@
 import 'package:alfa_tool/ESPTouch_Service.dart';
-import 'package:alfa_tool/animated_background_colors.dart';
+import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/event_log.dart';
 import 'package:alfa_tool/event_log_manager.dart';
 import 'package:alfa_tool/event_type.dart';

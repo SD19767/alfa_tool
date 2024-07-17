@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:alfa_tool/Animated_background_colors.dart';
+
 import 'package:alfa_tool/event_log.dart';
 import 'package:alfa_tool/provisioning_state_manager.dart';
 import 'package:alfa_tool/provisioning_status_list.dart';
@@ -7,9 +7,9 @@ import 'package:alfa_tool/provisioning_status_list_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'animated_background.dart';
+import 'views/animated_background/index.dart';
 import 'provisioning_controller.dart';
-import 'background_controller.dart';
+import 'views/animated_background/controller.dart';
 
 class ProvisioningPage extends GetView<ProvisioningController> {
   final BackgroundController backgroundController =

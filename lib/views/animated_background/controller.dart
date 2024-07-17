@@ -1,7 +1,7 @@
+import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/provisioning_state_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:alfa_tool/animated_background_colors.dart';
 
 class BackgroundController extends GetxController
     with GetSingleTickerProviderStateMixin {
