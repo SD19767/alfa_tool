@@ -12,9 +12,9 @@ class ESPTouchService extends GetxController {
 
   @override
   Future<void> startProvisioning(String ssid, String bssid, String password,
-      String reservedData, String aseKey) async {
+      String? reservedData, String? aesKey) async {
     _stateManager.updateProvisioningState(ProvisioningState.inProgress);
-    ESPTouch.startProvisioning(ssid, bssid, password, reservedData, aseKey);
+    ESPTouch.startProvisioning(ssid, bssid, password, reservedData, aesKey);
   }
 
   void setEventHandler(Function(EventType event, String? message) handler) {

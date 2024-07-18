@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:alfa_tool/views/provisioning/index.dart';
@@ -23,21 +22,16 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     final bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final AnimatedBackground animatedBackground =
+        Get.find<AnimatedBackground>();
 
     return Obx(() {
       backgroundController.changeState(controller.backgroundState.value);
-
-      final bool isProvisioning =
-          controller.provisioningState.value != ProvisioningState.idle;
-
-      final AnimatedBackground animatedBackground =
-          Get.find<AnimatedBackground>();
 
       return CupertinoPageScaffold(
         child: Stack(
           children: [
             Positioned.fill(child: animatedBackground),
-            if (isProvisioning) SafeArea(child: ProvisioningView(key: key)),
             SafeArea(
               child: GestureDetector(
                 onPanStart: (details) {
@@ -61,17 +55,20 @@ class LoginView extends GetView<LoginController> {
                   children: [
                     SizedBox(height: 50),
                     Center(
-                      child: Text(
-                        'Alfa Tool',
-                        style: TextStyle(
-                          fontFamily: '.SF Pro Text',
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkMode
-                              ? CupertinoColors.white
-                              : CupertinoColors.black,
+                      child: SizedBox(
+                        height: 50, // 設定標題高度為50
+                        child: Text(
+                          'Alfa Tool',
+                          style: TextStyle(
+                            fontFamily: '.SF Pro Text',
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: isDarkMode
+                                ? CupertinoColors.white
+                                : CupertinoColors.black,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
                     Spacer(),

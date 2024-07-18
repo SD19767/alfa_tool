@@ -4,6 +4,7 @@ import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/constants/event_type.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
+import 'package:alfa_tool/usecases/start_provisioning_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +13,9 @@ class LoginController extends GetxController {
   var passwordController = TextEditingController(text: '12345687');
   var customDataController = TextEditingController();
   var aesKeyController = TextEditingController();
-  var mockBSSID = 'AA:BB:CC:DD:EE:FF';
+  StartProvisioningUsecase startProvisioningUsecase =
+      Get.put(StartProvisioningUsecase());
+
   var showCustomFields = false.obs;
   RxList<EventLog> logs = <EventLog>[].obs;
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
@@ -22,6 +25,7 @@ class LoginController extends GetxController {
       Get.find<ProvisioningStateManager>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
   final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
+
   @override
   void onInit() {
     super.onInit();
@@ -38,8 +42,10 @@ class LoginController extends GetxController {
           break;
         case EventType.onProvisioningError:
           _stateManager.updateBackgroundState(BackgroundState.purple);
+          break;
         case EventType.onProvisioningStop:
           _stateManager.updateBackgroundState(BackgroundState.purple);
+          break;
         default:
           break;
       }
@@ -48,12 +54,26 @@ class LoginController extends GetxController {
 
   Future<void> _startProvisioning() async {
     String ssid = ssidController.text;
-    String bssid = mockBSSID; // Fetch the BSSID if needed
     String password = passwordController.text;
     String reservedData = customDataController.text;
-    String aseKey = aesKeyController.text;
-    await _espTouchService.startProvisioning(
-        ssid, bssid, password, reservedData, aseKey);
+    String aesKey = aesKeyController.text;
+    try {
+      startProvisioningUsecase.validateAndPrepareProvisioningData(
+          ssid: ssid,
+          bssid: 'AA:BB:CC:DD:EE:FF',
+          password: password,
+          customData: reservedData,
+          aesKey: aesKey);
+      Get.toNamed('/provisioning', parameters: {
+        'ssid': ssid,
+        'bssid': 'AA:BB:CC:DD:EE:FF',
+        'password': password,
+        'customData': reservedData,
+        'aesKey': aesKey
+      });
+    } catch (error) {
+      _showErrorDialog(error.toString());
+    }
   }
 
   Future<void> startProvisioningButtonTap() async {
@@ -64,4 +84,22 @@ class LoginController extends GetxController {
       provisioningState.value == ProvisioningState.idle;
   bool shouldStartProvisioning() =>
       provisioningState.value == ProvisioningState.idle;
+
+  void _showErrorDialog(String message) {
+    Get.dialog(
+      CupertinoAlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('OK'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import './controller.dart';
 
-class AnimatedBackgroundBindings implements Bindings {
+class ProvisioningBindings implements Bindings {
   @override
   void dependencies() {
     Get.put(ProvisioningController());

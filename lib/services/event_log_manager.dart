@@ -12,6 +12,10 @@ class EventLogManager extends GetxController {
   }
 
   void clearEventMessages() {
+    for (var i = eventMessages.length - 1; i >= 0; i--) {
+      var aa = eventMessages[i].eventMessage;
+      print('Alvin Test event messages: $aa');
+    }
     eventMessages.clear();
   }
 }

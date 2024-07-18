@@ -4,14 +4,15 @@ class ESPTouch {
   static const platform = MethodChannel('com.example.esptouch');
 
   static Future<void> startProvisioning(String ssid, String bssid,
-      String password, String reservedData, String aseKey) async {
+      String password, String? reservedData, String? aesKey) async {
     // 創建一個包含必要參數的 Map
     Map<String, String?> args = {
       'ssid': ssid,
       'password': password,
       'bssid': bssid.isNotEmpty ? bssid : null,
-      'reservedData': reservedData.isNotEmpty ? reservedData : null,
-      'aseKey': aseKey.isNotEmpty ? aseKey : null
+      'reservedData':
+          reservedData != null && reservedData.isNotEmpty ? reservedData : null,
+      'aesKey': aesKey != null && aesKey.isNotEmpty ? aesKey : null
     };
 
     await platform.invokeMethod('startProvisioning', args);

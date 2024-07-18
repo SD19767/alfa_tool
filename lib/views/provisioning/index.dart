@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:alfa_tool/views/animated_background/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,68 +16,97 @@ class ProvisioningView extends GetView<ProvisioningController> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidthPadding = screenWidth / 6;
-    double screenHeightPadding = screenHeight / 4;
+    double screenHeightPadding = 24;
+    final AnimatedBackground animatedBackground =
+        Get.find<AnimatedBackground>();
 
-    return Container(
-      padding: EdgeInsets.only(
-        left: screenWidthPadding,
-        right: screenWidthPadding,
-        top: screenHeightPadding,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Obx(() {
-              return ListView.builder(
-                itemCount: controller.eventLogs.length,
-                itemBuilder: (context, index) {
-                  return _buildItem(
-                      context, controller.eventLogs[index], isDarkMode, index);
-                },
-              );
-            }),
+    return Stack(
+      children: [
+        Positioned.fill(child: animatedBackground),
+        Container(
+          padding: EdgeInsets.only(
+            left: screenWidthPadding,
+            right: screenWidthPadding,
+            top: screenHeightPadding,
           ),
-          SizedBox(height: 24),
-          Obx(() {
-            return IgnorePointer(
-              ignoring: controller.getButtonShouldShow() ? false : true,
-              child: AnimatedOpacity(
-                opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
-                duration: Duration(milliseconds: 300),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: CupertinoColors.systemIndigo.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: CupertinoButton(
-                        onPressed: controller.getButtonShouldShow()
-                            ? controller.onComplete
-                            : null,
-                        child: Text(
-                          controller.getButtonTitle(),
-                          style: TextStyle(
-                            color: isDarkMode
-                                ? CupertinoColors.white
-                                : CupertinoColors.black,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 50),
+              Center(
+                child: SizedBox(
+                  height: 50, // 設定標題高度為50
+                  child: Text(
+                    'Alfa Tool',
+                    style: TextStyle(
+                      fontFamily: '.SF Pro Text',
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: isDarkMode
+                          ? CupertinoColors.white
+                          : CupertinoColors.black,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
-            );
-          }),
-          SizedBox(height: 24),
-        ],
-      ),
+              SizedBox(height: 50),
+              Expanded(
+                child: Obx(() {
+                  return ListView.builder(
+                    itemCount: controller.eventLogs.length,
+                    itemBuilder: (context, index) {
+                      var aa = controller.eventLogs[index].message;
+                      print('Alvin Test Obx messages: $aa');
+                      return _buildItem(context, controller.eventLogs[index],
+                          isDarkMode, index);
+                    },
+                  );
+                }),
+              ),
+              SizedBox(height: 24),
+              Obx(() {
+                return IgnorePointer(
+                  ignoring: controller.getButtonShouldShow() ? false : true,
+                  child: AnimatedOpacity(
+                    opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
+                    duration: Duration(milliseconds: 300),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color:
+                                CupertinoColors.systemIndigo.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: CupertinoButton(
+                            onPressed: controller.getButtonShouldShow()
+                                ? controller.onComplete
+                                : null,
+                            child: Text(
+                              controller.getButtonTitle(),
+                              style: TextStyle(
+                                color: isDarkMode
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.black,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
+              SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
