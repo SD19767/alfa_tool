@@ -107,7 +107,6 @@ class ESPTouchHelper: NSObject, ESPProvisionerDelegate {
     private func sendEventToFlutter(event: EventType, message: String? = nil) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            print("Alvin Test \(event.methodName)" )
             self.channel?.invokeMethod(event.methodName, arguments: message)
         }
     }

@@ -1,4 +1,4 @@
-import 'package:alfa_tool/event_log.dart';
+import 'package:alfa_tool/models/event_log.dart';
 import 'package:get/get.dart';
 
 class EventLogManager extends GetxController {

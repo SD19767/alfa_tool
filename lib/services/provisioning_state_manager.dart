@@ -1,7 +1,5 @@
-import 'package:alfa_tool/animated_background_colors.dart';
-import 'package:alfa_tool/provisioning_controller.dart';
-import 'package:alfa_tool/provisioning_status_list_controller.dart';
 import 'package:get/get.dart';
+import 'package:alfa_tool/constants/animated_background_state.dart';
 
 enum ProvisioningState { idle, inProgress, complete, stop }
 
