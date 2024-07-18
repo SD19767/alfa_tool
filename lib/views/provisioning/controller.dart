@@ -1,5 +1,4 @@
 import 'package:alfa_tool/useCases/start_provisioning_useCase.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
