@@ -1,10 +1,7 @@
 import 'dart:ui';
-import 'package:alfa_tool/models/event_log.dart';
+import 'package:alfa_tool/constants/colors.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
-import 'package:alfa_tool/views/provisioning/index.dart';
-import 'package:alfa_tool/views/provisioning/controller.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../animated_background/index.dart';
 import 'controller.dart';
@@ -56,16 +53,14 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 50),
                     Center(
                       child: SizedBox(
-                        height: 50, // 設定標題高度為50
+                        height: 50,
                         child: Text(
                           'Alfa Tool',
                           style: TextStyle(
                             fontFamily: '.SF Pro Text',
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
-                            color: isDarkMode
-                                ? CupertinoColors.white
-                                : CupertinoColors.black,
+                            color: AppColor.textColor(isDarkMode),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -122,9 +117,7 @@ class LoginView extends GetView<LoginController> {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? CupertinoColors.systemIndigo.withOpacity(0.6)
-                            : CupertinoColors.systemIndigo.withOpacity(0.6),
+                        color: AppColor.backgroundColor(isDarkMode, 0.6),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: CupertinoButton(
@@ -134,9 +127,7 @@ class LoginView extends GetView<LoginController> {
                         child: Text(
                           'Start Provisioning',
                           style: TextStyle(
-                            color: isDarkMode
-                                ? CupertinoColors.white
-                                : CupertinoColors.black,
+                            color: AppColor.buttonTextColor(isDarkMode),
                           ),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -175,12 +166,10 @@ class LoginView extends GetView<LoginController> {
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           obscureText: obscureText,
           style: TextStyle(
-            color: isDarkMode ? CupertinoColors.white : CupertinoColors.black,
+            color: AppColor.textColor(isDarkMode),
           ),
           decoration: BoxDecoration(
-            color: isDarkMode
-                ? CupertinoColors.black.withOpacity(0.4)
-                : CupertinoColors.white.withOpacity(0.8),
+            color: AppColor.backgroundColor(isDarkMode, 0.4),
             borderRadius: BorderRadius.circular(8.0),
           ),
         ),
@@ -211,9 +200,8 @@ class LoginView extends GetView<LoginController> {
                             child: Text(
                               controller.logs[index].eventMessage,
                               style: TextStyle(
-                                  color: isDarkMode
-                                      ? CupertinoColors.white
-                                      : CupertinoColors.black),
+                                color: AppColor.textColor(isDarkMode),
+                              ),
                             ),
                           ),
                         ),

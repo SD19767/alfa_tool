@@ -10,11 +10,10 @@ import 'views/login/index.dart';
 import 'views/provisioning/index.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return GetCupertinoApp(
@@ -33,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/provisioning',
-          page: () => const ProvisioningView(),
+          page: () => ProvisioningView(),
           binding: ProvisioningBindings(),
         ),
       ],

@@ -1,10 +1,11 @@
 import 'dart:ui';
-import 'package:alfa_tool/views/animated_background/index.dart';
+import 'package:alfa_tool/constants/colors.dart';
+import 'package:alfa_tool/models/event_log.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:alfa_tool/models/event_log.dart';
-import 'package:alfa_tool/views/provisioning/controller.dart';
+import 'controller.dart';
+import '../animated_background/index.dart';
 
 class ProvisioningView extends GetView<ProvisioningController> {
   const ProvisioningView({super.key});
@@ -34,16 +35,14 @@ class ProvisioningView extends GetView<ProvisioningController> {
               const SizedBox(height: 50),
               Center(
                 child: SizedBox(
-                  height: 50, // 設定標題高度為50
+                  height: 50,
                   child: Text(
                     'Alfa Tool',
                     style: TextStyle(
                       fontFamily: '.SF Pro Text',
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: isDarkMode
-                          ? CupertinoColors.white
-                          : CupertinoColors.black,
+                      color: AppColor.textColor(isDarkMode),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -55,8 +54,6 @@ class ProvisioningView extends GetView<ProvisioningController> {
                   return ListView.builder(
                     itemCount: controller.eventLogs.length,
                     itemBuilder: (context, index) {
-                      var aa = controller.eventLogs[index].message;
-                      print('Alvin Test Obx messages: $aa');
                       return _buildItem(context, controller.eventLogs[index],
                           isDarkMode, index);
                     },
@@ -77,8 +74,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color:
-                                CupertinoColors.systemIndigo.withOpacity(0.6),
+                            color: AppColor.indigo.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: CupertinoButton(
@@ -88,9 +84,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                             child: Text(
                               controller.getButtonTitle(),
                               style: TextStyle(
-                                color: isDarkMode
-                                    ? CupertinoColors.white
-                                    : CupertinoColors.black,
+                                color: AppColor.buttonTextColor(isDarkMode),
                               ),
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -117,23 +111,23 @@ class ProvisioningView extends GetView<ProvisioningController> {
     switch (event.type) {
       case EventLogType.success:
         icon = Icons.check_circle;
-        color = isDarkMode ? Colors.blue : Colors.green;
+        color = isDarkMode ? AppColor.blue : AppColor.green;
         break;
       case EventLogType.failure:
         icon = Icons.error;
-        color = isDarkMode ? Colors.red : Colors.redAccent;
+        color = AppColor.redAccent;
         break;
       case EventLogType.info:
         icon = Icons.info;
-        color = isDarkMode ? Colors.yellow : Colors.orange;
+        color = isDarkMode ? AppColor.yellow : AppColor.orange;
         break;
       case EventLogType.stop:
         icon = Icons.stop_circle;
-        color = isDarkMode ? Colors.grey : Colors.grey;
+        color = AppColor.grey;
         break;
       default:
         icon = Icons.circle;
-        color = isDarkMode ? Colors.grey : Colors.grey;
+        color = AppColor.grey;
     }
 
     return Padding(
@@ -149,9 +143,8 @@ class ProvisioningView extends GetView<ProvisioningController> {
             child: Text(
               event.message,
               style: TextStyle(
-                  color: isDarkMode
-                      ? CupertinoColors.white
-                      : CupertinoColors.black),
+                color: AppColor.textColor(isDarkMode),
+              ),
             ),
           ),
         ],
