@@ -16,7 +16,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
-  // 动画持续时间
   final Duration animationDuration = const Duration(seconds: 12);
   final Duration colorChangeDuration = const Duration(seconds: 4);
 
@@ -67,7 +66,6 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
                 1.0;
             final double screenHeight = MediaQuery.of(context).size.height;
 
-            // 使用比例计算波浪高度和振幅
             final double waveHeight1 = screenHeight * 0.4;
             final double waveAmplitude1 = screenHeight * 0.1;
             final double waveHeight2 = screenHeight * 0.26;
@@ -123,15 +121,15 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
 }
 
 class BackgroundPainter extends CustomPainter {
-  final double progress; // 动画进度
-  final double waveHeight1; // 波浪1高度
-  final double waveFrequency1; // 波浪1频率
-  final double waveAmplitude1; // 波浪1振幅
-  final double waveHeight2; // 波浪2高度
-  final double waveFrequency2; // 波浪2频率
-  final double waveAmplitude2; // 波浪2振幅
-  final Color waveColor1; // 第一个波浪颜色
-  final Color waveColor2; // 第二个波浪颜色
+  final double progress;
+  final double waveHeight1;
+  final double waveFrequency1;
+  final double waveAmplitude1;
+  final double waveHeight2;
+  final double waveFrequency2;
+  final double waveAmplitude2;
+  final Color waveColor1;
+  final Color waveColor2;
 
   BackgroundPainter({
     required this.progress,
@@ -147,11 +145,9 @@ class BackgroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 绘制第一个波浪
     _drawWave(canvas, size, waveColor1, progress, waveHeight1, waveAmplitude1,
         waveFrequency1);
 
-    // 绘制第二个波浪
     _drawWave(canvas, size, waveColor2, progress + 0.5, waveHeight2,
         waveAmplitude2, waveFrequency2);
   }
