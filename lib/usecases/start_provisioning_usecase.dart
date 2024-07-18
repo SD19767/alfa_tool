@@ -1,9 +1,12 @@
 import 'package:alfa_tool/services/ESPTouch_Service.dart';
+import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:get/get.dart';
 
-class StartProvisioningUsecase {
+class StartProvisioningUseCase {
   final String mockBssid = 'AA:BB:CC:DD:EE:FF';
   final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
+  final ProvisioningStateManager _stateManager =
+      Get.find<ProvisioningStateManager>();
 
   /// Starts the provisioning process by validating and preparing the provisioning data for ESPTouch.
   Future<void> startProvisioning({
@@ -20,7 +23,7 @@ class StartProvisioningUsecase {
       customData: customData,
       aesKey: aesKey,
     );
-
+    _stateManager.updateProvisioningState(ProvisioningState.inProgress);
     await _espTouchService.startProvisioning(
       ssid,
       bssid ?? mockBssid,

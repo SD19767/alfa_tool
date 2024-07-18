@@ -1,5 +1,3 @@
-import 'package:alfa_tool/views/login/controller.dart';
-import 'package:alfa_tool/views/provisioning/controller.dart';
 import 'package:get/get.dart';
 import 'package:alfa_tool/constants/animated_background_state.dart';
 

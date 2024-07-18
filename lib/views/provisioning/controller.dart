@@ -1,4 +1,4 @@
-import 'package:alfa_tool/usecases/start_provisioning_usecase.dart';
+import 'package:alfa_tool/useCases/start_provisioning_useCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:alfa_tool/models/event_log.dart';
@@ -12,8 +12,8 @@ class ProvisioningController extends GetxController {
   final ProvisioningStateManager _stateManager =
       Get.find<ProvisioningStateManager>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
-  StartProvisioningUsecase startProvisioningUsecase =
-      Get.put(StartProvisioningUsecase());
+  final StartProvisioningUseCase _startProvisioningUseCase =
+      Get.find<StartProvisioningUseCase>();
 
   late final String ssid;
   late final String password;
@@ -62,7 +62,7 @@ class ProvisioningController extends GetxController {
 
   void delayedAndStartProvisioning() {
     Future.delayed(Duration(seconds: 1), () {
-      startProvisioningUsecase.startProvisioning(
+      _startProvisioningUseCase.startProvisioning(
         ssid: ssid,
         bssid: bssid,
         password: password,

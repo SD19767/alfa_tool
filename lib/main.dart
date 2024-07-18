@@ -1,4 +1,3 @@
-import 'package:alfa_tool/services/ESPTouch.dart';
 import 'package:alfa_tool/services/ESPTouch_Service.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';

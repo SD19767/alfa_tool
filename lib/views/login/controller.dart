@@ -2,9 +2,9 @@ import 'package:alfa_tool/services/ESPTouch_Service.dart';
 import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
-import 'package:alfa_tool/constants/event_type.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
-import 'package:alfa_tool/usecases/start_provisioning_usecase.dart';
+import 'package:alfa_tool/useCases/esp_event_handler_useCase.dart';
+import 'package:alfa_tool/useCases/start_provisioning_useCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -13,8 +13,8 @@ class LoginController extends GetxController {
   var passwordController = TextEditingController(text: '12345687');
   var customDataController = TextEditingController();
   var aesKeyController = TextEditingController();
-  StartProvisioningUsecase startProvisioningUsecase =
-      Get.put(StartProvisioningUsecase());
+  StartProvisioningUseCase startProvisioningUseCase =
+      Get.put(StartProvisioningUseCase());
 
   var showCustomFields = false.obs;
   RxList<EventLog> logs = <EventLog>[].obs;
@@ -25,6 +25,8 @@ class LoginController extends GetxController {
       Get.find<ProvisioningStateManager>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
   final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
+  final ESPEventHandlerUseCase _eventHandlerUseCase =
+      Get.find<ESPEventHandlerUseCase>();
 
   @override
   void onInit() {
@@ -32,24 +34,7 @@ class LoginController extends GetxController {
     logs.bindStream(_logManager.eventMessages.stream);
     provisioningState.bindStream(_stateManager.provisioningState.stream);
     backgroundState.bindStream(_stateManager.backgroundState.stream);
-    _espTouchService.setEventHandler((event, message) {
-      switch (event) {
-        case EventType.onProvisioningStart:
-          _stateManager.updateBackgroundState(BackgroundState.galaxy);
-          break;
-        case EventType.onProvisioningScanResult:
-          _stateManager.updateBackgroundState(BackgroundState.green);
-          break;
-        case EventType.onProvisioningError:
-          _stateManager.updateBackgroundState(BackgroundState.purple);
-          break;
-        case EventType.onProvisioningStop:
-          _stateManager.updateBackgroundState(BackgroundState.purple);
-          break;
-        default:
-          break;
-      }
-    });
+    _eventHandlerUseCase.setEventHandler();
   }
 
   Future<void> _startProvisioning() async {
@@ -58,7 +43,7 @@ class LoginController extends GetxController {
     String reservedData = customDataController.text;
     String aesKey = aesKeyController.text;
     try {
-      startProvisioningUsecase.validateAndPrepareProvisioningData(
+      startProvisioningUseCase.validateAndPrepareProvisioningData(
           ssid: ssid,
           bssid: 'AA:BB:CC:DD:EE:FF',
           password: password,
