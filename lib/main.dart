@@ -4,18 +4,17 @@ import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:alfa_tool/views/animated_background/index.dart';
 import 'package:alfa_tool/views/login/bindings.dart';
 import 'package:alfa_tool/views/provisioning/bindings.dart';
-import 'package:alfa_tool/views/provisioning/controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'views/login/index.dart';
-import 'views/login/controller.dart';
 import 'views/provisioning/index.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return GetCupertinoApp(
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/provisioning',
-          page: () => ProvisioningView(),
+          page: () => const ProvisioningView(),
           binding: ProvisioningBindings(),
         ),
       ],

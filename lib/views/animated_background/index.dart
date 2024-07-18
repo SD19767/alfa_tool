@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'controller.dart';
 
 class AnimatedBackground extends StatefulWidget {
+  const AnimatedBackground({super.key});
+
   @override
   _AnimatedBackgroundState createState() => _AnimatedBackgroundState();
 }
@@ -15,8 +17,8 @@ class _AnimatedBackgroundState extends State<AnimatedBackground>
   late AnimationController _controller;
 
   // 动画持续时间
-  final Duration animationDuration = Duration(seconds: 12);
-  final Duration colorChangeDuration = Duration(seconds: 4);
+  final Duration animationDuration = const Duration(seconds: 12);
+  final Duration colorChangeDuration = const Duration(seconds: 4);
 
   @override
   void initState() {

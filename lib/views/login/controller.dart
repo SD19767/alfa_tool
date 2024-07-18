@@ -1,4 +1,3 @@
-import 'package:alfa_tool/services/ESPTouch_Service.dart';
 import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
@@ -24,7 +23,6 @@ class LoginController extends GetxController {
   final ProvisioningStateManager _stateManager =
       Get.find<ProvisioningStateManager>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
-  final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
   final ESPEventHandlerUseCase _eventHandlerUseCase =
       Get.find<ESPEventHandlerUseCase>();
 
@@ -73,12 +71,12 @@ class LoginController extends GetxController {
   void _showErrorDialog(String message) {
     Get.dialog(
       CupertinoAlertDialog(
-        title: Text('Error'),
+        title: const Text('Error'),
         content: Text(message),
         actions: <Widget>[
           CupertinoDialogAction(
             isDefaultAction: true,
-            child: Text('OK'),
+            child: const Text('OK'),
             onPressed: () {
               Get.back();
             },

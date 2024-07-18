@@ -53,7 +53,7 @@ class LoginView extends GetView<LoginController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     Center(
                       child: SizedBox(
                         height: 50, // 設定標題高度為50
@@ -71,7 +71,7 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: _buildInputFields(context, isDarkMode,
@@ -95,25 +95,25 @@ class LoginView extends GetView<LoginController> {
       children: [
         AnimatedOpacity(
           opacity: provisioningState == ProvisioningState.idle ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           child: AnimatedSize(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             child: Column(
               children: [
                 _buildTextField(
                     controller.ssidController, 'Enter SSID', isDarkMode, false),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 _buildTextField(controller.passwordController, 'Enter Password',
                     isDarkMode, true),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 if (controller.showCustomFields.value) ...[
                   _buildTextField(controller.customDataController,
                       'Enter Custom Data', isDarkMode, false),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   _buildTextField(controller.aesKeyController, 'Enter AES Key',
                       isDarkMode, false),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                 ],
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
@@ -139,22 +139,22 @@ class LoginView extends GetView<LoginController> {
                                 : CupertinoColors.black,
                           ),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 IgnorePointer(
                   ignoring: controller.shouldShowEventLog() ? false : true,
                   child: CupertinoButton(
-                    child: Text('View Events'),
+                    child: const Text('View Events'),
                     onPressed: controller.shouldShowEventLog()
                         ? () => _showEventLog(context, isDarkMode)
                         : null,
                   ),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
               ],
             ),
           ),
@@ -172,7 +172,7 @@ class LoginView extends GetView<LoginController> {
         child: CupertinoTextField(
           controller: controller,
           placeholder: placeholder,
-          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
           obscureText: obscureText,
           style: TextStyle(
             color: isDarkMode ? CupertinoColors.white : CupertinoColors.black,
@@ -193,7 +193,7 @@ class LoginView extends GetView<LoginController> {
       context: context,
       builder: (context) {
         return CupertinoActionSheet(
-          title: Text('Event Log'),
+          title: const Text('Event Log'),
           message: Container(
             height: 300,
             child: Obx(() => CupertinoScrollbar(
@@ -225,7 +225,7 @@ class LoginView extends GetView<LoginController> {
           actions: [
             CupertinoActionSheetAction(
               onPressed: () => Navigator.pop(context),
-              child: Text('Close'),
+              child: const Text('Close'),
             ),
           ],
         );

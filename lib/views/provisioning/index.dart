@@ -14,7 +14,6 @@ class ProvisioningView extends GetView<ProvisioningController> {
     final bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     double screenWidthPadding = screenWidth / 6;
     double screenHeightPadding = 24;
     final AnimatedBackground animatedBackground =
@@ -32,7 +31,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Center(
                 child: SizedBox(
                   height: 50, // 設定標題高度為50
@@ -50,7 +49,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                   ),
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Expanded(
                 child: Obx(() {
                   return ListView.builder(
@@ -64,13 +63,13 @@ class ProvisioningView extends GetView<ProvisioningController> {
                   );
                 }),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Obx(() {
                 return IgnorePointer(
                   ignoring: controller.getButtonShouldShow() ? false : true,
                   child: AnimatedOpacity(
                     opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: BackdropFilter(
@@ -94,7 +93,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                                     : CupertinoColors.black,
                               ),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
                           ),
                         ),
                       ),
@@ -102,7 +101,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                   ),
                 );
               }),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
             ],
           ),
         ),
@@ -145,7 +144,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
             icon,
             color: color,
           ),
-          SizedBox(width: 12.0),
+          const SizedBox(width: 12.0),
           Expanded(
             child: Text(
               event.message,

@@ -61,7 +61,7 @@ class ProvisioningController extends GetxController {
   }
 
   void delayedAndStartProvisioning() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       _startProvisioningUseCase.startProvisioning(
         ssid: ssid,
         bssid: bssid,
