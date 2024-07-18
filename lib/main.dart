@@ -1,3 +1,4 @@
+import 'package:alfa_tool/localization/translations.dart';
 import 'package:alfa_tool/services/ESPTouch_Service.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetCupertinoApp(
+      translations: AppTranslations(),
+      locale: Get.deviceLocale,
       initialBinding: BindingsBuilder(() {
         Get.put(ProvisioningStateManager());
         Get.put(EventLogManager());

@@ -53,9 +53,9 @@ class LoginView extends GetView<LoginController> {
                     const SizedBox(height: 50),
                     Center(
                       child: SizedBox(
-                        height: 50,
+                        height: 60,
                         child: Text(
-                          'Alfa Tool',
+                          'app_title'.tr,
                           style: TextStyle(
                             fontFamily: '.SF Pro Text',
                             fontSize: 40,
@@ -96,18 +96,18 @@ class LoginView extends GetView<LoginController> {
             curve: Curves.easeInOut,
             child: Column(
               children: [
-                _buildTextField(
-                    controller.ssidController, 'Enter SSID', isDarkMode, false),
+                _buildTextField(controller.ssidController, 'enter_ssid'.tr,
+                    isDarkMode, false),
                 const SizedBox(height: 16),
-                _buildTextField(controller.passwordController, 'Enter Password',
-                    isDarkMode, true),
+                _buildTextField(controller.passwordController,
+                    'enter_password'.tr, isDarkMode, true),
                 const SizedBox(height: 16),
                 if (controller.showCustomFields.value) ...[
                   _buildTextField(controller.customDataController,
-                      'Enter Custom Data', isDarkMode, false),
+                      'enter_custom_data'.tr, isDarkMode, false),
                   const SizedBox(height: 16),
-                  _buildTextField(controller.aesKeyController, 'Enter AES Key',
-                      isDarkMode, false),
+                  _buildTextField(controller.aesKeyController,
+                      'enter_aes_key'.tr, isDarkMode, false),
                   const SizedBox(height: 16),
                 ],
                 ClipRRect(
@@ -125,7 +125,7 @@ class LoginView extends GetView<LoginController> {
                           controller.startProvisioningButtonTap();
                         },
                         child: Text(
-                          'Start Provisioning',
+                          'start_provisioning'.tr,
                           style: TextStyle(
                             color: AppColor.buttonTextColor(isDarkMode),
                           ),
@@ -139,7 +139,7 @@ class LoginView extends GetView<LoginController> {
                 IgnorePointer(
                   ignoring: controller.shouldShowEventLog() ? false : true,
                   child: CupertinoButton(
-                    child: const Text('View Events'),
+                    child: Text('view_events'.tr),
                     onPressed: controller.shouldShowEventLog()
                         ? () => _showEventLog(context, isDarkMode)
                         : null,
@@ -182,7 +182,7 @@ class LoginView extends GetView<LoginController> {
       context: context,
       builder: (context) {
         return CupertinoActionSheet(
-          title: const Text('Event Log'),
+          title: Text('event_log'.tr),
           message: Container(
             height: 300,
             child: Obx(() => CupertinoScrollbar(
@@ -213,7 +213,7 @@ class LoginView extends GetView<LoginController> {
           actions: [
             CupertinoActionSheetAction(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
+              child: Text('close'.tr),
             ),
           ],
         );

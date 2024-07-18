@@ -35,9 +35,9 @@ class ProvisioningView extends GetView<ProvisioningController> {
               const SizedBox(height: 50),
               Center(
                 child: SizedBox(
-                  height: 50,
+                  height: 60,
                   child: Text(
-                    'Alfa Tool',
+                    'app_title'.tr,
                     style: TextStyle(
                       fontFamily: '.SF Pro Text',
                       fontSize: 40,
@@ -82,7 +82,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                                 ? controller.onComplete
                                 : null,
                             child: Text(
-                              controller.getButtonTitle(),
+                              'start_provisioning'.tr,
                               style: TextStyle(
                                 color: AppColor.buttonTextColor(isDarkMode),
                               ),
