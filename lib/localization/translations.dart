@@ -17,6 +17,7 @@ class AppTranslations extends Translations {
           'view_events': 'View Events',
           'event_log': 'Event Log',
           'close': 'Close',
+          'retry': 'Retry',
         },
         'zh_TW': {
           'app_title': 'Alfa 工具',
@@ -28,6 +29,7 @@ class AppTranslations extends Translations {
           'view_events': '查看事件',
           'event_log': '事件日誌',
           'close': '關閉',
+          'retry': '重試',
         },
         'zh_CN': {
           'app_title': 'Alfa 工具',
@@ -39,6 +41,7 @@ class AppTranslations extends Translations {
           'view_events': '查看事件',
           'event_log': '事件日志',
           'close': '关闭',
+          'retry': '重试',
         },
         'ja_JP': {
           'app_title': 'Alfa ツール',
@@ -50,6 +53,7 @@ class AppTranslations extends Translations {
           'view_events': 'イベントを表示',
           'event_log': 'イベントログ',
           'close': '閉じる',
+          'retry': 'リトライ',
         },
       };
 }
