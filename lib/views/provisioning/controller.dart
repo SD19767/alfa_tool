@@ -8,8 +8,8 @@ import 'package:get/get_rx/get_rx.dart';
 class ProvisioningController extends GetxController {
   RxList<EventLog> eventLogs = <EventLog>[].obs;
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
   final StartProvisioningUseCase _startProvisioningUseCase =
       Get.find<StartProvisioningUseCase>();

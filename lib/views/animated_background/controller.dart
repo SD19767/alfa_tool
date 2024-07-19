@@ -7,8 +7,8 @@ class BackgroundController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final currentState = BackgroundState.green.obs;
   late AnimationController animationController;
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
   @override
   void onInit() {
     super.onInit();

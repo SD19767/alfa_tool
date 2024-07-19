@@ -11,6 +11,7 @@ import 'views/login/index.dart';
 import 'views/provisioning/index.dart';
 
 void main() {
+  setupDependencies();
   runApp(MyApp());
 }
 
@@ -21,10 +22,7 @@ class MyApp extends StatelessWidget {
       translations: AppTranslations(),
       locale: Get.deviceLocale,
       initialBinding: BindingsBuilder(() {
-        Get.put(ProvisioningStateManager());
-        Get.put(EventLogManager());
-        Get.put(ESPTouchService());
-        Get.put(AnimatedBackground());
+        setupDependencies();
       }),
       initialRoute: '/login',
       getPages: [
@@ -41,4 +39,11 @@ class MyApp extends StatelessWidget {
       ],
     );
   }
+}
+
+void setupDependencies() {
+  Get.put(EventLogManager());
+  Get.put<ProvisioningStateManagerInterface>(ProvisioningStateManager());
+  Get.put<ESPTouchServiceInterface>(ESPTouchService());
+  Get.put(AnimatedBackground());
 }

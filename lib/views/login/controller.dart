@@ -20,8 +20,8 @@ class LoginController extends GetxController {
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
   Rx<BackgroundState> backgroundState = BackgroundState.purple.obs;
 
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
   final ESPEventHandlerUseCase _eventHandlerUseCase =
       Get.find<ESPEventHandlerUseCase>();

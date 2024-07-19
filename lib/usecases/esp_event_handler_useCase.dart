@@ -8,10 +8,11 @@ import 'package:get/get.dart';
 
 /// This class is responsible for handling ESPTouch events and updating the provisioning state.
 class ESPEventHandlerUseCase {
-  final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
+  final ESPTouchServiceInterface _espTouchService =
+      Get.find<ESPTouchServiceInterface>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
 
   /// Sets up the event handler for ESPTouch events.
   ///
