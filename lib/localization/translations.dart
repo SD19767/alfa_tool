@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
-  static final fallbackLocale = Locale('en', 'US');
-
+  final fallbackLocale = const Locale('en', 'US');
+//todo: 用 xlsx 整理，轉成 json 再讀取
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {

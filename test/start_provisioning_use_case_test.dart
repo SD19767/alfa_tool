@@ -2,9 +2,9 @@ import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:alfa_tool/services/ESPTouch_Service.dart';
+import 'package:alfa_tool/services/esp_touch_service.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
-import 'package:alfa_tool/useCases/start_provisioning_useCase.dart';
+import 'package:alfa_tool/use_cases/start_provisioning_useCase.dart';
 
 // Mock 類別
 class MockESPTouchService implements ESPTouchServiceInterface {

@@ -82,7 +82,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                                 ? controller.onComplete
                                 : null,
                             child: Text(
-                              'retry'.tr,
+                              controller.getButtonTitle(),
                               style: TextStyle(
                                 color: AppColor.buttonTextColor(isDarkMode),
                               ),

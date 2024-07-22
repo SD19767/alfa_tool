@@ -1,5 +1,5 @@
 import 'package:alfa_tool/localization/translations.dart';
-import 'package:alfa_tool/services/ESPTouch_Service.dart';
+import 'package:alfa_tool/services/esp_touch_service.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:alfa_tool/views/animated_background/index.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/provisioning',
-          page: () => ProvisioningView(),
+          page: () => const ProvisioningView(),
           binding: ProvisioningBindings(),
         ),
       ],
@@ -45,5 +45,6 @@ void setupDependencies() {
   Get.put(EventLogManager());
   Get.put<ProvisioningStateManagerInterface>(ProvisioningStateManager());
   Get.put<ESPTouchServiceInterface>(ESPTouchService());
-  Get.put(AnimatedBackground());
+  //todo: 這個不應該出現在這裡，應該跟該頁面綁定生命週期。
+  Get.put(const AnimatedBackground());
 }

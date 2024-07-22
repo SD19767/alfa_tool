@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:alfa_tool/constants/colors.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart'; // Import for Flutter Material
 import 'package:get/get.dart';
 import '../animated_background/index.dart';
 import 'controller.dart';
@@ -94,59 +95,104 @@ class LoginView extends GetView<LoginController> {
           child: AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            child: Column(
-              children: [
-                _buildTextField(controller.ssidController, 'enter_ssid'.tr,
-                    isDarkMode, false),
-                const SizedBox(height: 16),
-                _buildTextField(controller.passwordController,
-                    'enter_password'.tr, isDarkMode, true),
-                const SizedBox(height: 16),
-                if (controller.showCustomFields.value) ...[
-                  _buildTextField(controller.customDataController,
-                      'enter_custom_data'.tr, isDarkMode, false),
-                  const SizedBox(height: 16),
-                  _buildTextField(controller.aesKeyController,
-                      'enter_aes_key'.tr, isDarkMode, false),
-                  const SizedBox(height: 16),
-                ],
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: AppColor.backgroundColor(isDarkMode, 0.6),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: CupertinoButton(
-                        onPressed: () {
-                          controller.startProvisioningButtonTap();
+            child: Form(
+              autovalidateMode: AutovalidateMode.always,
+              key: controller.formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CupertinoFormSection(
+                  backgroundColor: Colors.red,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _buildFormField(
+                        controller: controller.ssidController,
+                        placeholder: 'enter_ssid'.tr,
+                        isDarkMode: isDarkMode,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'SSID cannot be empty';
+                          }
+                          return null;
                         },
-                        child: Text(
-                          'start_provisioning'.tr,
-                          style: TextStyle(
-                            color: AppColor.buttonTextColor(isDarkMode),
-                          ),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                     ),
-                  ),
+                    _buildFormField(
+                      controller: controller.passwordController,
+                      placeholder: 'enter_password'.tr,
+                      isDarkMode: isDarkMode,
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password cannot be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                    if (controller.showCustomFields.value) ...[
+                      _buildFormField(
+                        controller: controller.customDataController,
+                        placeholder: 'enter_custom_data'.tr,
+                        isDarkMode: isDarkMode,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Custom data cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
+                      _buildFormField(
+                        controller: controller.aesKeyController,
+                        placeholder: 'enter_aes_key'.tr,
+                        isDarkMode: isDarkMode,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'AES key cannot be empty';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppColor.backgroundColor(isDarkMode, 0.6),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: CupertinoButton(
+                            onPressed: () {
+                              if (_validateFields()) {
+                                controller.startProvisioningButtonTap();
+                              }
+                            },
+                            child: Text(
+                              'start_provisioning'.tr,
+                              style: TextStyle(
+                                color: AppColor.buttonTextColor(isDarkMode),
+                              ),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                    IgnorePointer(
+                      ignoring: controller.shouldShowEventLog() ? false : true,
+                      child: CupertinoButton(
+                        child: Text('view_events'.tr),
+                        onPressed: controller.shouldShowEventLog()
+                            ? () => _showEventLog(context, isDarkMode)
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                 ),
-                const SizedBox(height: 24),
-                IgnorePointer(
-                  ignoring: controller.shouldShowEventLog() ? false : true,
-                  child: CupertinoButton(
-                    child: Text('view_events'.tr),
-                    onPressed: controller.shouldShowEventLog()
-                        ? () => _showEventLog(context, isDarkMode)
-                        : null,
-                  ),
-                ),
-                const SizedBox(height: 24),
-              ],
+              ),
             ),
           ),
         ),
@@ -154,27 +200,50 @@ class LoginView extends GetView<LoginController> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String placeholder,
-      bool isDarkMode, bool obscureText) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-        child: CupertinoTextField(
-          controller: controller,
-          placeholder: placeholder,
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-          obscureText: obscureText,
-          style: TextStyle(
-            color: AppColor.textColor(isDarkMode),
+  Widget _buildFormField({
+    required TextEditingController controller,
+    required String placeholder,
+    required bool isDarkMode,
+    bool obscureText = false,
+    required FormFieldValidator<String> validator,
+  }) {
+    return CupertinoTextFormFieldRow(
+      controller: controller,
+      placeholder: placeholder,
+      obscureText: obscureText,
+      style: TextStyle(color: AppColor.textColor(isDarkMode)),
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+      decoration: BoxDecoration(
+          color:
+              Colors.blue, // Ensure the background is transparent here
+          borderRadius: BorderRadius.circular(8.0),
+          backgroundBlendMode: BlendMode.
           ),
-          decoration: BoxDecoration(
-            color: AppColor.backgroundColor(isDarkMode, 0.4),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-      ),
+      validator: validator,
     );
+  }
+
+  bool _validateFields() {
+    // Validate each field manually
+    bool isValid = true;
+
+    // Validate each field manually
+    if (controller.ssidController.text.isEmpty) {
+      isValid = false;
+    }
+    if (controller.passwordController.text.isEmpty) {
+      isValid = false;
+    }
+    if (controller.showCustomFields.value) {
+      if (controller.customDataController.text.isEmpty) {
+        isValid = false;
+      }
+      if (controller.aesKeyController.text.isEmpty) {
+        isValid = false;
+      }
+    }
+
+    return isValid;
   }
 
   void _showEventLog(BuildContext context, bool isDarkMode) {

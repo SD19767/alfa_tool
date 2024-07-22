@@ -1,11 +1,12 @@
 import 'package:alfa_tool/constants/event_type.dart';
 import 'package:alfa_tool/models/event_log.dart';
-import 'package:alfa_tool/services/ESPTouch_Service.dart';
+import 'package:alfa_tool/services/esp_touch_service.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+//Todo: add 移除use case。
 /// This class is responsible for handling ESPTouch events and updating the provisioning state.
 class ESPEventHandlerUseCase {
   final ESPTouchServiceInterface _espTouchService =
