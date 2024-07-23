@@ -10,16 +10,25 @@ import 'package:get/get.dart';
 import 'views/login/index.dart';
 import 'views/provisioning/index.dart';
 
-void main() {
-  setupDependencies();
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 初始化翻譯資料
+  final appTranslations = AppTranslations();
+  await appTranslations.loadTranslations();
+
+  runApp(MyApp(translations: appTranslations));
 }
 
 class MyApp extends StatelessWidget {
+  final AppTranslations translations;
+
+  MyApp({required this.translations});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      translations: AppTranslations(),
+      translations: translations,
       locale: Get.deviceLocale,
       initialBinding: BindingsBuilder(() {
         setupDependencies();
