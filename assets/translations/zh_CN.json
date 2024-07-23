@@ -1,0 +1,20 @@
+{
+    "app_title": "Alfa 工具",
+    "start_provisioning": "开始配置",
+    "enter_ssid": "输入SSID",
+    "enter_password": "输入密码",
+    "enter_custom_data": "输入自定义数据",
+    "enter_aes_key": "输入AES密钥",
+    "view_events": "查看事件",
+    "event_log": "事件日志",
+    "close": "关闭",
+    "retry": "重试",
+    "ssid_empty": "SSID不能为空",
+    "password_empty": "密码不能为空",
+    "password_length": "密码长度必须至少为8个字符",
+    "bssid_empty": "BSSID不能为空",
+    "bssid_format_invalid": "BSSID格式无效",
+    "reservedData_length": "reservedData长度不能超过64个字符",
+    "aesKey_length": "AES密钥必须为16个字符长"
+  }
+  

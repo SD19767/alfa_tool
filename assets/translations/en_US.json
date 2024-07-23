@@ -1,0 +1,20 @@
+{
+    "app_title": "Alfa Tool",
+    "start_provisioning": "Start Provisioning",
+    "enter_ssid": "Enter SSID",
+    "enter_password": "Enter Password",
+    "enter_custom_data": "Enter Custom Data",
+    "enter_aes_key": "Enter AES Key",
+    "view_events": "View Events",
+    "event_log": "Event Log",
+    "close": "Close",
+    "retry": "Retry",
+    "ssid_empty": "SSID cannot be empty",
+    "password_empty": "Password cannot be empty",
+    "password_length": "Password must be at least 8 characters long",
+    "bssid_empty": "BSSID cannot be empty",
+    "bssid_format_invalid": "BSSID format is invalid",
+    "reservedData_length": "reservedData must be lower than or equal to 64 characters",
+    "aesKey_length": "AES Key must be 16 characters long"
+  }
+  
