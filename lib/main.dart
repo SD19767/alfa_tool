@@ -5,7 +5,7 @@ import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:alfa_tool/views/animated_background/index.dart';
 import 'package:alfa_tool/views/login/bindings.dart';
 import 'package:alfa_tool/views/provisioning/bindings.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'views/login/index.dart';
 import 'views/provisioning/index.dart';
@@ -18,7 +18,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetCupertinoApp(
+    return GetMaterialApp(
       translations: AppTranslations(),
       locale: Get.deviceLocale,
       initialBinding: BindingsBuilder(() {

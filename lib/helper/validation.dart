@@ -1,4 +1,4 @@
-enum ValidationType { ssid, password, bssid, aesKey }
+enum ValidationType { ssid, password, bssid, reservedData, aesKey }
 
 class Validation {
   Map<ValidationType, String? Function(String?)> validations = {
@@ -22,6 +22,12 @@ class Validation {
       } else if (!RegExp(r'^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$')
           .hasMatch(value)) {
         return 'BSSID format is invalid';
+      }
+      return null;
+    },
+    ValidationType.reservedData: (value) {
+      if (value != null && value.isNotEmpty && value.length >= 64) {
+        return 'reservedData must be lower than or equal to 64 characters';
       }
       return null;
     },
