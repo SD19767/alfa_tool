@@ -1,12 +1,14 @@
-import 'package:alfa_tool/services/ESPTouch_Service.dart';
+import 'package:alfa_tool/services/esp_touch_service.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:get/get.dart';
+//Todo: add 移除use case。
 
 class StartProvisioningUseCase {
   final String mockBssid = 'AA:BB:CC:DD:EE:FF';
-  final ESPTouchService _espTouchService = Get.find<ESPTouchService>();
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ESPTouchServiceInterface _espTouchService =
+      Get.find<ESPTouchServiceInterface>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
 
   /// Starts the provisioning process by validating and preparing the provisioning data for ESPTouch.
   Future<void> startProvisioning({

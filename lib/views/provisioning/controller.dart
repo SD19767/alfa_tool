@@ -1,4 +1,5 @@
-import 'package:alfa_tool/useCases/start_provisioning_useCase.dart';
+import 'package:alfa_tool/helper/validation.dart';
+import 'package:alfa_tool/use_cases/start_provisioning_useCase.dart';
 import 'package:get/get.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
@@ -8,8 +9,8 @@ import 'package:get/get_rx/get_rx.dart';
 class ProvisioningController extends GetxController {
   RxList<EventLog> eventLogs = <EventLog>[].obs;
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
   final StartProvisioningUseCase _startProvisioningUseCase =
       Get.find<StartProvisioningUseCase>();
@@ -74,9 +75,9 @@ class ProvisioningController extends GetxController {
   String getButtonTitle() {
     switch (provisioningState.value) {
       case ProvisioningState.complete:
-        return 'Complete';
+        return 'Complete'.tr;
       case ProvisioningState.stop:
-        return 'Retry';
+        return 'Retry'.tr;
       default:
         return '';
     }

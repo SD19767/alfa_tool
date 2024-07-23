@@ -1,7 +1,8 @@
 import 'dart:ui';
 import 'package:alfa_tool/constants/colors.dart';
 import 'package:alfa_tool/models/event_log.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:alfa_tool/widgets/app_elevated_button.dart';
+import 'package:alfa_tool/widgets/app_title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controller.dart';
@@ -33,21 +34,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 50),
-              Center(
-                child: SizedBox(
-                  height: 60,
-                  child: Text(
-                    'app_title'.tr,
-                    style: TextStyle(
-                      fontFamily: '.SF Pro Text',
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.textColor(isDarkMode),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+              AppTitleText(isDarkMode: isDarkMode),
               const SizedBox(height: 50),
               Expanded(
                 child: Obx(() {
@@ -65,34 +52,17 @@ class ProvisioningView extends GetView<ProvisioningController> {
                 return IgnorePointer(
                   ignoring: controller.getButtonShouldShow() ? false : true,
                   child: AnimatedOpacity(
-                    opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: AppColor.indigo.withOpacity(0.6),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: CupertinoButton(
-                            onPressed: controller.getButtonShouldShow()
+                      opacity: controller.getButtonShouldShow() ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: AppElevatedButton(
+                          isDarkMode: isDarkMode,
+                          shouldShow: controller.getButtonShouldShow,
+                          onPressed: () {
+                            controller.getButtonShouldShow()
                                 ? controller.onComplete
-                                : null,
-                            child: Text(
-                              'retry'.tr,
-                              style: TextStyle(
-                                color: AppColor.buttonTextColor(isDarkMode),
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                                : null;
+                          },
+                          buttonTitle: controller.getButtonTitle())),
                 );
               }),
               const SizedBox(height: 24),
@@ -143,7 +113,11 @@ class ProvisioningView extends GetView<ProvisioningController> {
             child: Text(
               event.message,
               style: TextStyle(
+                decoration: TextDecoration.none,
                 color: AppColor.textColor(isDarkMode),
+                fontFamily: '.SF Pro Text',
+                fontSize: 18,
+                fontWeight: FontWeight.normal,
               ),
             ),
           ),

@@ -2,8 +2,8 @@ import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
-import 'package:alfa_tool/useCases/esp_event_handler_useCase.dart';
-import 'package:alfa_tool/useCases/start_provisioning_useCase.dart';
+import 'package:alfa_tool/use_cases/esp_event_handler_useCase.dart';
+import 'package:alfa_tool/use_cases/start_provisioning_useCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +12,7 @@ class LoginController extends GetxController {
   var passwordController = TextEditingController(text: '12345687');
   var customDataController = TextEditingController();
   var aesKeyController = TextEditingController();
+
   StartProvisioningUseCase startProvisioningUseCase =
       Get.put(StartProvisioningUseCase());
 
@@ -20,11 +21,13 @@ class LoginController extends GetxController {
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
   Rx<BackgroundState> backgroundState = BackgroundState.purple.obs;
 
-  final ProvisioningStateManager _stateManager =
-      Get.find<ProvisioningStateManager>();
+  final ProvisioningStateManagerInterface _stateManager =
+      Get.find<ProvisioningStateManagerInterface>();
   final EventLogManager _logManager = Get.find<EventLogManager>();
   final ESPEventHandlerUseCase _eventHandlerUseCase =
       Get.find<ESPEventHandlerUseCase>();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -36,26 +39,28 @@ class LoginController extends GetxController {
   }
 
   Future<void> _startProvisioning() async {
-    String ssid = ssidController.text;
-    String password = passwordController.text;
-    String reservedData = customDataController.text;
-    String aesKey = aesKeyController.text;
-    try {
-      startProvisioningUseCase.validateAndPrepareProvisioningData(
-          ssid: ssid,
-          bssid: 'AA:BB:CC:DD:EE:FF',
-          password: password,
-          customData: reservedData,
-          aesKey: aesKey);
-      Get.toNamed('/provisioning', parameters: {
-        'ssid': ssid,
-        'bssid': 'AA:BB:CC:DD:EE:FF',
-        'password': password,
-        'customData': reservedData,
-        'aesKey': aesKey
-      });
-    } catch (error) {
-      _showErrorDialog(error.toString());
+    if (formKey.currentState!.validate()) {
+      String ssid = ssidController.text;
+      String password = passwordController.text;
+      String reservedData = customDataController.text;
+      String aesKey = aesKeyController.text;
+      try {
+        startProvisioningUseCase.validateAndPrepareProvisioningData(
+            ssid: ssid,
+            bssid: 'AA:BB:CC:DD:EE:FF',
+            password: password,
+            customData: reservedData,
+            aesKey: aesKey);
+        Get.toNamed('/provisioning', parameters: {
+          'ssid': ssid,
+          'bssid': 'AA:BB:CC:DD:EE:FF',
+          'password': password,
+          'customData': reservedData,
+          'aesKey': aesKey
+        });
+      } catch (error) {
+        _showErrorDialog(error.toString());
+      }
     }
   }
 

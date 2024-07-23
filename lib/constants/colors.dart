@@ -1,25 +1,27 @@
 import 'package:alfa_tool/constants/animated_background_state.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppColor {
   static const Color black = Color(0xFF101010);
   static const Color white = Color(0xFFE5E5E5);
-  static const Color indigo = CupertinoColors.systemIndigo;
-  static const Color red = CupertinoColors.systemRed;
+  static const Color indigo = Colors.indigo;
+  static const Color red = Colors.red;
   static const Color redAccent = Color(0xFFFF5252);
-  static const Color green = CupertinoColors.systemGreen;
-  static const Color yellow = CupertinoColors.systemYellow;
-  static const Color orange = CupertinoColors.systemOrange;
-  static const Color blue = CupertinoColors.systemBlue;
-  static const Color pink = CupertinoColors.systemPink;
-  static const Color grey = CupertinoColors.systemGrey;
+  static const Color green = Colors.green;
+  static const Color yellow = Colors.yellow;
+  static const Color orange = Colors.orange;
+  static const Color blue = Colors.blue;
+  static const Color pink = Colors.pink;
+  static const Color grey = Colors.grey;
 
   static Color textColor(bool isDarkMode) => isDarkMode ? white : black;
 
   static Color backgroundColor(bool isDarkMode, double opacity) =>
       isDarkMode ? black.withOpacity(opacity) : white.withOpacity(opacity);
 
-  static Color buttonColor(bool isDarkMode) => isDarkMode ? white : black;
+  static Color buttonColor(bool isDarkMode) => isDarkMode
+      ? const Color.fromARGB(255, 144, 47, 149).withOpacity(0.6)
+      : const Color.fromARGB(255, 178, 123, 255).withOpacity(0.8);
 
   static Color buttonTextColor(bool isDarkMode) => isDarkMode ? white : black;
 
@@ -34,7 +36,7 @@ class AppColor {
   static final Map<BackgroundState, List<Color>> waveColors1 = {
     BackgroundState.green: [
       green.withOpacity(0.5),
-      CupertinoColors.systemTeal.withOpacity(0.5),
+      Colors.teal.withOpacity(0.5),
       yellow.withOpacity(0.5),
     ],
     BackgroundState.galaxy: [
@@ -43,10 +45,10 @@ class AppColor {
       yellow.withOpacity(0.5),
       green.withOpacity(0.5),
       blue.withOpacity(0.5),
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
     ],
     BackgroundState.purple: [
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
       indigo.withOpacity(0.5),
       pink.withOpacity(0.5),
     ],
@@ -54,12 +56,12 @@ class AppColor {
 
   static final Map<BackgroundState, List<Color>> waveColors2 = {
     BackgroundState.green: [
-      CupertinoColors.systemTeal.withOpacity(0.5),
+      Colors.teal.withOpacity(0.5),
       green.withOpacity(0.5),
       blue.withOpacity(0.5),
     ],
     BackgroundState.galaxy: [
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
       blue.withOpacity(0.5),
       green.withOpacity(0.5),
       yellow.withOpacity(0.5),
@@ -68,7 +70,7 @@ class AppColor {
     ],
     BackgroundState.purple: [
       indigo.withOpacity(0.5),
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
       pink.withOpacity(0.5),
     ],
   };
@@ -77,7 +79,7 @@ class AppColor {
   static final Map<BackgroundState, List<Color>> darkModeWaveColors1 = {
     BackgroundState.green: [
       green.withOpacity(0.5),
-      CupertinoColors.systemTeal.withOpacity(0.5),
+      Colors.teal.withOpacity(0.5),
       yellow.withOpacity(0.5),
     ],
     BackgroundState.galaxy: [
@@ -86,10 +88,10 @@ class AppColor {
       yellow.withOpacity(0.5),
       green.withOpacity(0.5),
       blue.withOpacity(0.5),
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
     ],
     BackgroundState.purple: [
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
       indigo.withOpacity(0.5),
       pink.withOpacity(0.5),
     ],
@@ -97,12 +99,12 @@ class AppColor {
 
   static final Map<BackgroundState, List<Color>> darkModeWaveColors2 = {
     BackgroundState.green: [
-      CupertinoColors.systemTeal.withOpacity(0.5),
+      Colors.teal.withOpacity(0.5),
       green.withOpacity(0.5),
       blue.withOpacity(0.5),
     ],
     BackgroundState.galaxy: [
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
       blue.withOpacity(0.5),
       green.withOpacity(0.5),
       yellow.withOpacity(0.5),
@@ -111,11 +113,11 @@ class AppColor {
     ],
     BackgroundState.purple: [
       indigo.withOpacity(0.5),
-      CupertinoColors.systemPurple.withOpacity(0.5),
+      Colors.purple.withOpacity(0.5),
       pink.withOpacity(0.5),
     ],
   };
 
-  static const Color darkModeBackground = CupertinoColors.black;
-  static const Color darkModeText = CupertinoColors.white;
+  static const Color darkModeBackground = Colors.black;
+  static const Color darkModeText = Colors.white;
 }

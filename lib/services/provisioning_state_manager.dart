@@ -3,15 +3,32 @@ import 'package:alfa_tool/constants/animated_background_state.dart';
 
 enum ProvisioningState { idle, inProgress, complete, stop }
 
-class ProvisioningStateManager extends GetxController {
-  var provisioningState = ProvisioningState.idle.obs;
-  var backgroundState = BackgroundState.purple.obs;
+abstract class ProvisioningStateManagerInterface {
+  Rx<ProvisioningState> get provisioningState;
+  Rx<BackgroundState> get backgroundState;
 
+  void updateProvisioningState(ProvisioningState state);
+  void updateBackgroundState(BackgroundState state);
+}
+
+class ProvisioningStateManager extends GetxController
+    implements ProvisioningStateManagerInterface {
+  final _provisioningState = ProvisioningState.idle.obs;
+  final _backgroundState = BackgroundState.purple.obs;
+
+  @override
+  Rx<ProvisioningState> get provisioningState => _provisioningState;
+
+  @override
+  Rx<BackgroundState> get backgroundState => _backgroundState;
+
+  @override
   void updateProvisioningState(ProvisioningState state) {
-    provisioningState.value = state;
+    _provisioningState.value = state;
   }
 
+  @override
   void updateBackgroundState(BackgroundState state) {
-    backgroundState.value = state;
+    _backgroundState.value = state;
   }
 }
