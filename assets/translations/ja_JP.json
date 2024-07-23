@@ -1,0 +1,20 @@
+{
+    "app_title": "Alfa ツール",
+    "start_provisioning": "プロビジョニングを開始",
+    "enter_ssid": "SSIDを入力",
+    "enter_password": "パスワードを入力",
+    "enter_custom_data": "カスタムデータを入力",
+    "enter_aes_key": "AESキーを入力",
+    "view_events": "イベントを表示",
+    "event_log": "イベントログ",
+    "close": "閉じる",
+    "retry": "リトライ",
+    "ssid_empty": "SSIDは空にできません",
+    "password_empty": "パスワードは空にできません",
+    "password_length": "パスワードは8文字以上である必要があります",
+    "bssid_empty": "BSSIDは空にできません",
+    "bssid_format_invalid": "BSSIDの形式が無効です",
+    "reservedData_length": "reservedDataは64文字以内である必要があります",
+    "aesKey_length": "AESキーは16文字でなければなりません"
+  }
+  

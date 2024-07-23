@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:excel/excel.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/foundation.dart';
 
@@ -11,28 +11,17 @@ class AppTranslations extends Translations {
     var translations = <String, Map<String, String>>{};
 
     try {
-      var filePath = 'assets/translations.xlsx';
-      ByteData data = await rootBundle.load(filePath);
-      List<int> bytes = data.buffer.asUint8List();
-      var excel = Excel.decodeBytes(bytes);
+      // Define the list of languages and their corresponding JSON file paths
+      final languages = ['en_US', 'zh_TW', 'zh_CN', 'ja_JP'];
 
-      for (var table in excel.tables.keys) {
-        var sheet = excel.tables[table];
-        if (sheet != null) {
-          var header = sheet.rows[0];
-          for (var i = 1; i < sheet.rows.length; i++) {
-            var row = sheet.rows[i];
-            for (var j = 1; j < row.length; j++) {
-              var lang = header[j]!.value.toString();
-              var key = row[0]!.value.toString();
-              var value = row[j]!.value.toString();
-              if (!translations.containsKey(lang)) {
-                translations[lang] = {};
-              }
-              translations[lang]![key] = value;
-            }
-          }
-        }
+      for (var lang in languages) {
+        var filePath = 'assets/translations/$lang.json';
+        String jsonString = await rootBundle.loadString(filePath);
+        Map<String, dynamic> jsonMap = json.decode(jsonString);
+
+        // Convert the JSON map to the required format
+        translations[lang] =
+            jsonMap.map((key, value) => MapEntry(key, value.toString()));
       }
 
       _translations = translations;

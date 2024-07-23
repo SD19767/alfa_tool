@@ -24,4 +24,7 @@ flutter:
 
   assets:
     - assets/backgroundImage.jpg
-    - assets/translations.xlsx
+    - assets/translations/en_US.json
+    - assets/translations/zh_TW.json
+    - assets/translations/zh_CN.json
+    - assets/translations/ja_JP.json

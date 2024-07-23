@@ -14,10 +14,11 @@ class LoginView extends GetView<LoginController> {
   final BackgroundController backgroundController =
       Get.put(BackgroundController());
   final Validation validations = Get.find<Validation>();
-  late double _panStartPositionY;
-  late double _panEndPositionY;
+  late int _clickCount;
 
-  LoginView({super.key});
+  LoginView({super.key}) {
+    _clickCount = 0; // Initialize click count
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,47 +31,41 @@ class LoginView extends GetView<LoginController> {
       backgroundController.changeState(controller.backgroundState.value);
 
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
             Positioned.fill(child: animatedBackground),
             SafeArea(
-              child: GestureDetector(
-                onPanStart: (details) {
-                  _panStartPositionY = details.globalPosition.dy;
-                },
-                onPanUpdate: (details) {
-                  _panEndPositionY = details.globalPosition.dy;
-                },
-                onPanEnd: (details) {
-                  double distance = _panEndPositionY - _panStartPositionY;
-                  if (distance.abs() > 50) {
-                    if (distance < 0) {
-                      controller.showCustomFields.value = true;
-                    } else {
-                      controller.showCustomFields.value = false;
-                    }
-                  }
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 50),
-                    AppTitleText(isDarkMode: isDarkMode),
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: _buildInputFields(context, isDarkMode,
-                          controller.provisioningState.value),
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 50),
+                  GestureDetector(
+                    onTap: _handleTitleTap,
+                    child: AppTitleText(isDarkMode: isDarkMode),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: _buildInputFields(context, isDarkMode,
+                        controller.provisioningState.value),
+                  ),
+                ],
               ),
             ),
           ],
         ),
       );
     });
+  }
+
+  void _handleTitleTap() {
+    _clickCount++;
+    if (_clickCount >= 10) {
+      _clickCount = 0; // Reset count
+      controller.showCustomFields.value = !controller.showCustomFields.value;
+    }
   }
 
   Widget _buildInputFields(BuildContext context, bool isDarkMode,

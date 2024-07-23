@@ -1,39 +1,41 @@
+import 'package:get/get.dart';
+
 enum ValidationType { ssid, password, bssid, reservedData, aesKey }
 
 class Validation {
   Map<ValidationType, String? Function(String?)> validations = {
     ValidationType.ssid: (value) {
       if (value == null || value.isEmpty) {
-        return 'SSID cannot be empty';
+        return 'ssid_empty'.tr;
       }
       return null;
     },
     ValidationType.password: (value) {
       if (value == null || value.isEmpty) {
-        return 'Password cannot be empty';
+        return 'password_empty'.tr;
       } else if (value.length < 8) {
-        return 'Password must be at least 8 characters long';
+        return 'password_length'.tr;
       }
       return null;
     },
     ValidationType.bssid: (value) {
       if (value == null || value.isEmpty) {
-        return 'BSSID cannot be empty';
+        return 'bssid_empty'.tr;
       } else if (!RegExp(r'^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$')
           .hasMatch(value)) {
-        return 'BSSID format is invalid';
+        return 'bssid_format_invalid'.tr;
       }
       return null;
     },
     ValidationType.reservedData: (value) {
       if (value != null && value.isNotEmpty && value.length >= 64) {
-        return 'reservedData must be lower than or equal to 64 characters';
+        return 'reservedData_length'.tr;
       }
       return null;
     },
     ValidationType.aesKey: (value) {
       if (value != null && value.isNotEmpty && value.length != 16) {
-        return 'AES Key must be 16 characters long';
+        return 'aesKey_length'.tr;
       }
       return null;
     },
