@@ -1,4 +1,4 @@
-import 'package:alfa_tool/services/esp_touch_service.dart';
+import 'package:alfa_tool/services/esptouch_service.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:get/get.dart';
 //Todo: add 移除use case。

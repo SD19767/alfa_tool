@@ -6,6 +6,9 @@ import 'package:alfa_tool/use_cases/esp_event_handler_useCase.dart';
 import 'package:alfa_tool/use_cases/start_provisioning_useCase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:network_info_plus/network_info_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:io' show Platform;
 
 class LoginController extends GetxController {
   var ssidController = TextEditingController(text: 'AlfaLoop');
@@ -36,6 +39,7 @@ class LoginController extends GetxController {
     provisioningState.bindStream(_stateManager.provisioningState.stream);
     backgroundState.bindStream(_stateManager.backgroundState.stream);
     _eventHandlerUseCase.setEventHandler();
+    _getCurrentSSID();
   }
 
   Future<void> _startProvisioning() async {
@@ -89,5 +93,29 @@ class LoginController extends GetxController {
         ],
       ),
     );
+  }
+
+  Future<void> _getCurrentSSID() async {
+    try {
+      var status = await Permission.locationWhenInUse.status;
+      if (status.isDenied) {
+        status = await Permission.locationWhenInUse.request();
+      }
+      if (status.isGranted) {
+        var wifiName = await NetworkInfo().getWifiName();
+        if (wifiName != null) {
+          if (Platform.isAndroid) {
+            wifiName = wifiName.replaceAll('"', '');
+          }
+          ssidController.text = wifiName;
+        } else {
+          ssidController.text = 'Unknown SSID';
+        }
+      } else {
+        ssidController.text = 'Permission denied';
+      }
+    } catch (e) {
+      ssidController.text = 'Failed to get SSID';
+    }
   }
 }
