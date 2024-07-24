@@ -68,9 +68,9 @@ class ProvisioningController extends GetxController {
   String getButtonTitle() {
     switch (provisioningState.value) {
       case ProvisioningState.complete:
-        return 'Complete'.tr;
+        return 'close'.tr;
       case ProvisioningState.stop:
-        return 'Retry'.tr;
+        return 'retry'.tr;
       default:
         return '';
     }
@@ -79,7 +79,7 @@ class ProvisioningController extends GetxController {
   bool getButtonShouldShow() {
     switch (provisioningState.value) {
       case ProvisioningState.complete:
-        return true;
+        return false;
       case ProvisioningState.stop:
         return true;
       default:
