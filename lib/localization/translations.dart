@@ -25,9 +25,8 @@ class AppTranslations extends Translations {
       }
 
       _translations = translations;
-      debugPrint('Alvin test: Translations updated successfully');
     } catch (e) {
-      debugPrint('Alvin test: Error loading translations: $e');
+      debugPrint(' Error loading translations: $e');
     }
   }
 
