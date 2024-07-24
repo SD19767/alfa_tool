@@ -119,7 +119,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
         break;
       case EventLogType.info:
         icon = Icons.info;
-        color = isDarkMode ? AppColor.yellow : AppColor.orange;
+        color = isDarkMode ? AppColor.green : AppColor.blue;
         break;
       case EventLogType.stop:
         icon = Icons.stop_circle;

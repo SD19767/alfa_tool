@@ -44,19 +44,10 @@ class ProvisioningController extends GetxController {
   }
 
   void onComplete() {
-    switch (provisioningState.value) {
-      case ProvisioningState.complete:
-        _stateManager.updateProvisioningState(ProvisioningState.complete);
-        break;
-      case ProvisioningState.stop:
-        _stateManager.updateProvisioningState(ProvisioningState.idle);
-        _logManager.clearEventMessages();
-        Get.back();
-        eventLogs.clear(); // This will trigger the list update
-        break;
-      default:
-        break;
-    }
+    _stateManager.updateProvisioningState(ProvisioningState.idle);
+    _logManager.clearEventMessages();
+    Get.back();
+    eventLogs.clear();
   }
 
   void delayedAndStartProvisioning() {
@@ -85,7 +76,7 @@ class ProvisioningController extends GetxController {
   bool getButtonShouldShow() {
     switch (provisioningState.value) {
       case ProvisioningState.complete:
-        return true;
+        return false;
       case ProvisioningState.stop:
         return true;
       default:
