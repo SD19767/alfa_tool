@@ -1,5 +1,5 @@
 import 'package:alfa_tool/localization/translations.dart';
-import 'package:alfa_tool/services/ESPTouch_Service.dart';
+import 'package:alfa_tool/services/esptouch_service.dart';
 import 'package:alfa_tool/services/event_log_manager.dart';
 import 'package:alfa_tool/services/provisioning_state_manager.dart';
 import 'package:alfa_tool/views/animated_background/index.dart';
