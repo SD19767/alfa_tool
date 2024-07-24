@@ -30,6 +30,9 @@ class LoginView extends GetView<LoginController> {
     return Obx(() {
       backgroundController.changeState(controller.backgroundState.value);
 
+      // Check if keyboard is visible
+      final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+
       return Scaffold(
         resizeToAvoidBottomInset: true,
         body: Stack(
@@ -40,11 +43,13 @@ class LoginView extends GetView<LoginController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 50),
-                  GestureDetector(
-                    onTap: _handleTitleTap,
-                    child: AppTitleText(isDarkMode: isDarkMode),
-                  ),
+                  if (!isKeyboardVisible) // Hide title when keyboard is visible
+                    const SizedBox(height: 50),
+                  if (!isKeyboardVisible)
+                    GestureDetector(
+                      onTap: _handleTitleTap,
+                      child: AppTitleText(isDarkMode: isDarkMode),
+                    ),
                   const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -126,23 +131,19 @@ class LoginView extends GetView<LoginController> {
                       ignoring: controller.shouldShowEventLog() ? false : true,
                       child: Visibility(
                         visible: controller.showViewEventsButton.value,
-                        child: Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: controller.shouldShowEventLog()
-                                ? () => _showEventLog(context, isDarkMode)
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColor.backgroundColor(isDarkMode, 0.6),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 16.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
+                        child: ElevatedButton(
+                          onPressed: controller.shouldShowEventLog()
+                              ? () => _showEventLog(context, isDarkMode)
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                AppColor.backgroundColor(isDarkMode, 0.6),
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Text('view_events'.tr),
                           ),
+                          child: Text('view_events'.tr),
                         ),
                       ),
                     );
