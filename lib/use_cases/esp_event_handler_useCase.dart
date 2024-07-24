@@ -1,3 +1,4 @@
+import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/constants/event_type.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/services/esptouch_service.dart';
@@ -33,6 +34,7 @@ class ESPEventHandlerUseCase {
           _logManager.addEventLog(
               eventMessage, message ?? "", EventLogType.success);
           _stateManager.updateProvisioningState(ProvisioningState.inProgress);
+          _stateManager.updateBackgroundState(BackgroundState.galaxy);
           break;
         case EventType.onProvisioningScanResult:
           _logManager.addEventLog(
@@ -43,11 +45,13 @@ class ESPEventHandlerUseCase {
           _logManager.addEventLog(
               eventMessage, message ?? "", EventLogType.failure);
           _stateManager.updateProvisioningState(ProvisioningState.stop);
+          _stateManager.updateBackgroundState(BackgroundState.purple);
           break;
         case EventType.onProvisioningStop:
           _logManager.addEventLog(
               eventMessage, message ?? "", EventLogType.stop);
           _stateManager.updateProvisioningState(ProvisioningState.stop);
+          _stateManager.updateBackgroundState(BackgroundState.green);
           break;
         default:
           _logManager.addEventLog(

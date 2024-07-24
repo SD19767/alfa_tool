@@ -38,6 +38,13 @@ class LoginController extends GetxController {
     logs.bindStream(_logManager.eventMessages.stream);
     provisioningState.bindStream(_stateManager.provisioningState.stream);
     backgroundState.bindStream(_stateManager.backgroundState.stream);
+
+    _stateManager.provisioningState.listen((event) {
+      provisioningState.refresh();
+    });
+    _logManager.eventMessages.listen((event) {
+      logs.refresh();
+    });
     _eventHandlerUseCase.setEventHandler();
     _getCurrentSSID();
   }

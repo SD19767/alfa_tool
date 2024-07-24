@@ -57,11 +57,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
                       child: AppElevatedButton(
                           isDarkMode: isDarkMode,
                           shouldShow: controller.getButtonShouldShow,
-                          onPressed: () {
-                            controller.getButtonShouldShow()
-                                ? controller.onComplete
-                                : null;
-                          },
+                          onPressed: controller.onComplete,
                           buttonTitle: controller.getButtonTitle())),
                 );
               }),
@@ -89,7 +85,7 @@ class ProvisioningView extends GetView<ProvisioningController> {
         break;
       case EventLogType.info:
         icon = Icons.info;
-        color = isDarkMode ? AppColor.yellow : AppColor.orange;
+        color = isDarkMode ? AppColor.green : AppColor.blue;
         break;
       case EventLogType.stop:
         icon = Icons.stop_circle;

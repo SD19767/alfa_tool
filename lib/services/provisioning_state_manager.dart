@@ -29,6 +29,7 @@ class ProvisioningStateManager extends GetxController
 
   @override
   void updateBackgroundState(BackgroundState state) {
+    print('alvin test: currentState has changed: $state');
     _backgroundState.value = state;
   }
 }

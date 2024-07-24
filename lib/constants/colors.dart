@@ -19,9 +19,17 @@ class AppColor {
   static Color backgroundColor(bool isDarkMode, double opacity) =>
       isDarkMode ? black.withOpacity(opacity) : white.withOpacity(opacity);
 
-  static Color buttonColor(bool isDarkMode) => isDarkMode
-      ? const Color.fromARGB(255, 144, 47, 149).withOpacity(0.6)
-      : const Color.fromARGB(255, 178, 123, 255).withOpacity(0.8);
+  static List<Color> buttonColor(bool isDarkMode) => isDarkMode
+      ? [
+          _mixWithBlack(pink).withOpacity(0.3),
+          _mixWithBlack(Colors.purple).withOpacity(0.5),
+          _mixWithBlack(indigo).withOpacity(0.5)
+        ]
+      : [
+          _mixWithWhite(pink).withOpacity(0.3),
+          _mixWithWhite(Colors.purple).withOpacity(0.5),
+          _mixWithWhite(indigo).withOpacity(0.5)
+        ];
 
   static Color buttonTextColor(bool isDarkMode) => isDarkMode ? white : black;
 
@@ -120,4 +128,11 @@ class AppColor {
 
   static const Color darkModeBackground = Colors.black;
   static const Color darkModeText = Colors.white;
+  static Color _mixWithWhite(Color color) {
+    return Color.lerp(Colors.white, color, 0.4) ?? color;
+  }
+
+  static Color _mixWithBlack(Color color) {
+    return Color.lerp(Colors.black, color, 0.4) ?? color;
+  }
 }

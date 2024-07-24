@@ -1,3 +1,4 @@
+import 'package:alfa_tool/constants/animated_background_state.dart';
 import 'package:alfa_tool/helper/validation.dart';
 import 'package:alfa_tool/use_cases/start_provisioning_useCase.dart';
 import 'package:get/get.dart';
@@ -45,19 +46,11 @@ class ProvisioningController extends GetxController {
   }
 
   void onComplete() {
-    switch (provisioningState.value) {
-      case ProvisioningState.complete:
-        _stateManager.updateProvisioningState(ProvisioningState.complete);
-        break;
-      case ProvisioningState.stop:
-        _stateManager.updateProvisioningState(ProvisioningState.idle);
-        _logManager.clearEventMessages();
-        Get.back();
-        eventLogs.clear(); // This will trigger the list update
-        break;
-      default:
-        break;
-    }
+    _stateManager.updateProvisioningState(ProvisioningState.idle);
+    _logManager.clearEventMessages();
+    _stateManager.updateBackgroundState(BackgroundState.purple);
+    Get.back();
+    eventLogs.clear();
   }
 
   void delayedAndStartProvisioning() {

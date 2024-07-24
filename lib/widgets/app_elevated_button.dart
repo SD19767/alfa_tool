@@ -21,21 +21,26 @@ class AppElevatedButton extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.0),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0), // 調整模糊度
+        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AppColor.buttonColor(isDarkMode), // 調整透明度
+            gradient: LinearGradient(
+              colors: AppColor.buttonColor(isDarkMode),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: ElevatedButton(
             onPressed: shouldShow() ? onPressed : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent, // 使背景透明以顯示毛玻璃效果
+              backgroundColor: Colors.transparent,
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
+              elevation: 0,
             ),
             child: Text(
               buttonTitle,
