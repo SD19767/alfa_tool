@@ -65,6 +65,9 @@ class LoginView extends GetView<LoginController> {
     if (_clickCount >= 10) {
       _clickCount = 0; // Reset count
       controller.showCustomFields.value = !controller.showCustomFields.value;
+      // Toggle visibility of the view events button
+      controller.showViewEventsButton.value =
+          !controller.showViewEventsButton.value;
     }
   }
 
@@ -118,23 +121,32 @@ class LoginView extends GetView<LoginController> {
                       },
                       buttonTitle: 'start_provisioning'.tr),
                   const SizedBox(height: 24),
-                  IgnorePointer(
-                    ignoring: controller.shouldShowEventLog() ? false : true,
-                    child: ElevatedButton(
-                      onPressed: controller.shouldShowEventLog()
-                          ? () => _showEventLog(context, isDarkMode)
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            AppColor.backgroundColor(isDarkMode, 0.6),
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                  Obx(() {
+                    return IgnorePointer(
+                      ignoring: controller.shouldShowEventLog() ? false : true,
+                      child: Visibility(
+                        visible: controller.showViewEventsButton.value,
+                        child: Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: controller.shouldShowEventLog()
+                                ? () => _showEventLog(context, isDarkMode)
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  AppColor.backgroundColor(isDarkMode, 0.6),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                            child: Text('view_events'.tr),
+                          ),
                         ),
                       ),
-                      child: Text('view_events'.tr),
-                    ),
-                  ),
+                    );
+                  }),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -168,40 +180,48 @@ class LoginView extends GetView<LoginController> {
   }
 
   void _showEventLog(BuildContext context, bool isDarkMode) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('event_log'.tr),
-          content: SizedBox(
-            height: 300,
-            child: Obx(() => Scrollbar(
-                  child: ListView.builder(
-                    itemCount: controller.logs.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text(
-                            controller.logs[index].eventMessage,
-                            style: TextStyle(
-                              color: AppColor.textColor(isDarkMode),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+    Get.defaultDialog(
+      title: 'event_log'.tr,
+      content: SizedBox(
+        height: 300, // 設定對話框內容的最大高度
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Check if there are any logs to display
+              if (controller.logs.isEmpty)
+                Center(
+                  child: Text(
+                    'No events found', // 預設消息
+                    style: TextStyle(
+                      color: AppColor.textColor(isDarkMode),
+                    ),
                   ),
-                )),
+                )
+              else
+                ...controller.logs.map((log) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      log.eventMessage,
+                      style: TextStyle(
+                        color: AppColor.textColor(isDarkMode),
+                      ),
+                    ),
+                  );
+                }),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('close'.tr),
-            ),
-          ],
-        );
-      },
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text('close'.tr),
+        ),
+      ],
+      barrierDismissible: true, // 使點擊外部區域也能關閉對話框
     );
   }
 }

@@ -11,8 +11,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:io' show Platform;
 
 class LoginController extends GetxController {
-  var ssidController = TextEditingController(text: 'AlfaLoop');
-  var passwordController = TextEditingController(text: '12345687');
+  var ssidController = TextEditingController(text: '');
+  var passwordController = TextEditingController(text: '');
   var customDataController = TextEditingController();
   var aesKeyController = TextEditingController();
 
@@ -20,6 +20,7 @@ class LoginController extends GetxController {
       Get.put(StartProvisioningUseCase());
 
   var showCustomFields = false.obs;
+  var showViewEventsButton = false.obs; // 新增屬性控制 view_events 按鈕顯示
   RxList<EventLog> logs = <EventLog>[].obs;
   Rx<ProvisioningState> provisioningState = ProvisioningState.idle.obs;
   Rx<BackgroundState> backgroundState = BackgroundState.purple.obs;
@@ -31,18 +32,21 @@ class LoginController extends GetxController {
       Get.find<ESPEventHandlerUseCase>();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late int _clickCount; // 用於計算點擊次數
 
   @override
   void onInit() {
     super.onInit();
-    logs.bindStream(_logManager.eventMessages.stream);
+    _clickCount = 0; // 初始化點擊次數
+
+    logs.bindStream(_logManager.logs.stream);
     provisioningState.bindStream(_stateManager.provisioningState.stream);
     backgroundState.bindStream(_stateManager.backgroundState.stream);
 
     _stateManager.provisioningState.listen((event) {
       provisioningState.refresh();
     });
-    _logManager.eventMessages.listen((event) {
+    _logManager.logs.listen((event) {
       logs.refresh();
     });
     _eventHandlerUseCase.setEventHandler();
@@ -123,6 +127,16 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       ssidController.text = 'Failed to get SSID';
+    }
+  }
+
+  void handleTitleTap() {
+    _clickCount++;
+    if (_clickCount >= 10) {
+      _clickCount = 0; // Reset count
+      showCustomFields.value = !showCustomFields.value;
+      showViewEventsButton.value =
+          !showViewEventsButton.value; // 切換 view_events 按鈕顯示
     }
   }
 }

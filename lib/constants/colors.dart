@@ -21,14 +21,14 @@ class AppColor {
 
   static List<Color> buttonColor(bool isDarkMode) => isDarkMode
       ? [
-          _mixWithBlack(pink).withOpacity(0.3),
-          _mixWithBlack(Colors.purple).withOpacity(0.5),
-          _mixWithBlack(indigo).withOpacity(0.5)
+          _mixWithBlack(pink).withOpacity(0.6),
+          _mixWithBlack(Colors.purple).withOpacity(0.6),
+          _mixWithBlack(indigo).withOpacity(0.6)
         ]
       : [
-          _mixWithWhite(pink).withOpacity(0.3),
-          _mixWithWhite(Colors.purple).withOpacity(0.5),
-          _mixWithWhite(indigo).withOpacity(0.5)
+          _mixWithWhite(pink).withOpacity(0.6),
+          _mixWithWhite(Colors.purple).withOpacity(0.6),
+          _mixWithWhite(indigo).withOpacity(0.6)
         ];
 
   static Color buttonTextColor(bool isDarkMode) => isDarkMode ? white : black;
@@ -129,10 +129,10 @@ class AppColor {
   static const Color darkModeBackground = Colors.black;
   static const Color darkModeText = Colors.white;
   static Color _mixWithWhite(Color color) {
-    return Color.lerp(Colors.white, color, 0.4) ?? color;
+    return Color.lerp(Colors.white, color, 0.2) ?? color;
   }
 
   static Color _mixWithBlack(Color color) {
-    return Color.lerp(Colors.black, color, 0.4) ?? color;
+    return Color.lerp(Colors.black, color, 0.2) ?? color;
   }
 }
