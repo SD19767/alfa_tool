@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:alfa_tool/constants/colors.dart';
 import 'package:alfa_tool/models/event_log.dart';
 import 'package:alfa_tool/widgets/app_elevated_button.dart';
