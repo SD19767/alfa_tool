@@ -17,16 +17,17 @@ class ESPTouchHelper: NSObject, ESPProvisionerDelegate {
             guard let self = self else { return }
             switch call.method {
             case "startProvisioning":
-                guard let args = call.arguments as? [String: String],
-                      let ssid = args["ssid"],
-                      let bssid = args["bssid"],
-                      let password = args["password"],
-                      let reservedData = args["reservedData"],
-                      let aseKey = args["aseKey"]
-                else {
+                guard let args = call.arguments as? [String: Any] else {
                     result(FlutterError(code: "INVALID_ARGUMENT", message: "Invalid arguments", details: nil))
                     return
                 }
+                
+                let ssid = args["ssid"] as? String ?? ""
+                let bssid = args["bssid"] as? String ?? ""
+                let password = args["password"] as? String ?? ""
+                let reservedData = args["reservedData"] as? String ?? ""
+                let aseKey = args["aseKey"] as? String ?? ""
+                
                 self.startProvisioning(ssid: ssid, bssid: bssid, password: password, reservedData: reservedData, aseKey: aseKey)
                 result("Provisioning started")
             case "startSync":
