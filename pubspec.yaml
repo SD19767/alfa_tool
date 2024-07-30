@@ -7,8 +7,15 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  excel: ^4.0.3
   flutter:
     sdk: flutter
+  get: ^4.6.6
+  mockito: ^5.4.4
+  path: ^1.9.0
+  network_info_plus: ^5.0.3
+  permission_handler: ^11.3.1
+  url_launcher: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +24,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/backgroundImage.jpg
+    - assets/translations/en_US.json
+    - assets/translations/zh_TW.json
+    - assets/translations/zh_CN.json
+    - assets/translations/ja_JP.json

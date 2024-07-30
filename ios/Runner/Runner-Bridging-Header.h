@@ -1,1 +1,6 @@
 #import "GeneratedPluginRegistrant.h"
+#import "ESPTouchTask.h"
+#import "ESP_ByteUtil.h"
+#import "ESP_NetUtil.h"
+#import "ESPProvisioner.h"
+#import "ESPProvisioningRequest.h"
